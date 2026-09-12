@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <title>Registered Candidates — AI Interview Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin panel for managing registered candidates.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        (function() {
+            document.documentElement.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+        })();
+    </script>
+    <style>
+        :root {
+            --surface:      #08122a;
+            --surface-card: #08122a;
+            --bg:           #020510;
+            --border-card:  #334155;
+            --border-input: #475569;
+            --text-primary: #ffffff;
+            --text-secondary:#cbd5e1;
+            --text-muted:   #94a3b8;
+            --cyan-glow:    #00ffff;
+            --sky-glow:     #38bdf8;
+            --row-hover:    rgba(0, 255, 255, 0.06);
+            --radius-xl:    22px;
+            --radius-lg:    16px;
+            --radius-md:    12px;
+            --radius-sm:    8px;
+        }
+
+        html.dark-theme {
+            --surface:      #08122a;
+            --surface-card: #08122a;
+            --bg:           #020510;
+            --border-card:  #334155;
+            --border-input: #475569;
+            --text-primary: #ffffff;
+            --text-secondary:#cbd5e1;
+            --text-muted:   #94a3b8;
+            --cyan-glow:    #00ffff;
+            --sky-glow:     #38bdf8;
+            --row-hover:    rgba(0, 255, 255, 0.06);
+        }
+
+        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: #020510 !important;
+            background-image: none !important;
+            padding: 0 0 60px;
+        }
+
+        /* ═══════════════════════════════════════════
+           ANIMATED AURORA NEURAL BACKGROUND SYSTEM
+        ═══════════════════════════════════════════ */
+        .db-bg {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden; display: block;
+        }
+        .db-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0, 150, 255, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100, 0, 255, 0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0, 255, 220, 0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0, 80, 255, 0.12) 0%, transparent 50%),
+                linear-gradient(160deg, #02060f 0%, #010416 30%, #020820 60%, #010512 100%);
+        }
+
+        .db-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; animation: orbDrift 18s ease-in-out infinite; }
+        .db-orb-1 { width: 520px; height: 520px; top: -120px; left: -100px; background: radial-gradient(circle, rgba(0, 120, 255, 0.30) 0%, transparent 70%); animation-duration: 20s; }
+        .db-orb-2 { width: 400px; height: 400px; top: 10%; right: -80px; background: radial-gradient(circle, rgba(120, 0, 255, 0.22) 0%, transparent 70%); animation-delay: -7s; animation-duration: 24s; }
+        .db-orb-3 { width: 480px; height: 480px; bottom: -80px; left: 30%; background: radial-gradient(circle, rgba(0, 200, 255, 0.18) 0%, transparent 70%); animation-delay: -13s; animation-duration: 22s; }
+        
+        @keyframes orbDrift {
+            0%   { opacity: 0.6; transform: translate(0, 0) scale(1); }
+            25%  { opacity: 0.8; transform: translate(30px, -20px) scale(1.05); }
+            50%  { opacity: 0.55; transform: translate(-20px, 30px) scale(0.97); }
+            75%  { opacity: 0.75; transform: translate(15px, 10px) scale(1.03); }
+            100% { opacity: 0.6; transform: translate(0, 0) scale(1); }
+        }
+
+        .db-grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(0, 200, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 255, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+        }
+
+        .db-particles { position: absolute; inset: 0; }
+        .db-star { position: absolute; border-radius: 50%; background: #ffffff; animation: starTwinkle linear infinite; }
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50%      { opacity: 0.6; transform: scale(1.6); }
+        }
+
+        .db-topbar-glow {
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 200, 255, 0.8) 30%, rgba(120, 0, 255, 0.8) 70%, transparent 100%);
+            animation: topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+        .page-shell { position: relative; z-index: 1; max-width: 1320px; margin: 0 auto; padding: 36px 24px 60px; }
+        
+        .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; gap: 20px; flex-wrap: wrap; }
+        .admin-brand { display: flex; align-items: center; gap: 16px; }
+        .admin-brand-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #00ffff 0%, #0284c7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #020510;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.45);
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .admin-brand-text h1 { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.75rem; margin: 0; letter-spacing: -0.02em; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .admin-brand-text p { font-size: 0.9rem; color: #cbd5e1; margin: 2px 0 0; font-weight: 500; }
+        
+        .admin-header-actions { display: flex; align-items: center; gap: 12px; }
+        
+        .header-icon-btn {
+            height: 44px; border-radius: 12px; background: #08122a; border: 1.5px solid #334155; color: #cbd5e1;
+            display: inline-flex; align-items: center; justify-content: center; font-size: 0.92rem; text-decoration: none; transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3); backdrop-filter: blur(16px); padding: 0 16px;
+        }
+        .header-icon-btn:hover { background: rgba(0, 255, 255, 0.12); border-color: #00ffff; color: #00ffff; box-shadow: 0 0 18px rgba(0, 255, 255, 0.35); transform: translateY(-2px); }
+        .header-icon-btn.danger { color: #f87171; border-color: rgba(239, 68, 68, 0.35); }
+        .header-icon-btn.danger:hover { background: rgba(239, 68, 68, 0.18); border-color: #ef4444; color: #ffffff; box-shadow: 0 0 18px rgba(239, 68, 68, 0.4); transform: translateY(-2px); }
+
+        .filter-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .filter-pill {
+            display: inline-flex; align-items: center; gap: 8px; background: #08122a; border: 1.5px solid #334155;
+            padding: 8px 18px; border-radius: 99px; font-size: 0.85rem; color: #94a3b8; font-weight: 700;
+            letter-spacing: 0.04em; text-transform: uppercase; font-family: 'Outfit', sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        }
+        .filter-pill .active-tag { color: #00ffff; font-weight: 800; letter-spacing: 0.02em; }
+        
+        .search-container { position: relative; width: 340px; max-width: 100%; }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #00ffff; font-size: 0.95rem; pointer-events: none; }
+        #searchInput {
+            width: 100%; background: #0b1329; border: 1.5px solid #475569; color: #ffffff; font-weight: 600;
+            border-radius: 12px; padding: 11px 16px 11px 40px; font-size: 0.9rem; transition: all 0.25s ease; box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        }
+        #searchInput::placeholder { color: #94a3b8; font-weight: 500; }
+        #searchInput:focus { outline: none; border-color: #00ffff; background: #0f1c3d; box-shadow: 0 0 18px rgba(0, 255, 255, 0.4); }
+
+        .results-panel {
+            background: #08122a; border: 1.5px solid #334155; border-radius: 22px; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65); backdrop-filter: blur(16px);
+        }
+        
+        .results-table { width: 100%; border-collapse: collapse; margin: 0; }
+        .results-table thead tr { background: linear-gradient(180deg, #0f1c3d 0%, #08122a 100%); border-bottom: 2px solid #334155; }
+        .results-table thead th {
+            padding: 16px 24px; font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.09em; color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.3); border: none;
+        }
+        .results-table tbody tr { border-bottom: 1px solid #1e293b; transition: all 0.15s ease; cursor: pointer; }
+        .results-table tbody tr:last-child { border-bottom: none; }
+        .results-table tbody tr:hover { background: rgba(0, 255, 255, 0.06) !important; }
+        .results-table tbody td { padding: 18px 24px; font-size: 0.92rem; vertical-align: middle; color: #ffffff; border: none; }
+        
+        .candidate-cell { display: flex; align-items: center; gap: 14px; }
+        .avatar-circle {
+            width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #00ffff, #0284c7);
+            display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif;
+            font-weight: 900; font-size: 1.15rem; color: #020510; box-shadow: 0 4px 15px rgba(0, 255, 255, 0.35); flex-shrink: 0;
+        }
+        .cand-name { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.98rem; color: #ffffff; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.03em; }
+        .cand-email { font-size: 0.82rem; color: #cbd5e1; font-weight: 500; }
+        
+        .auth-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }
+        .auth-badge.google { background: rgba(59,130,246,0.15); border: 1.5px solid rgba(59,130,246,0.4); color: #60a5fa; }
+        .auth-badge.verified { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1.5px solid rgba(16, 185, 129, 0.4); }
+
+        .btn-view {
+            display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 10px;
+            border: 1.5px solid #334155; background: #0b1329; color: #cbd5e1; font-family: 'Outfit', sans-serif;
+            font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: all 0.2s ease;
+        }
+        .btn-view:hover { border-color: #00ffff; color: #00ffff; background: rgba(0, 255, 255, 0.1); box-shadow: 0 0 12px rgba(0, 255, 255, 0.3); transform: translateY(-1px); }
+        
+        .btn-unlock-attempt {
+            background: rgba(0, 255, 255, 0.1); border: 1.5px solid #00ffff; color: #00ffff; border-radius: 10px;
+            padding: 6px 14px; font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 800;
+            transition: all 0.2s ease; cursor: pointer; display: inline-flex; align-items: center; box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+        .btn-unlock-attempt:hover { background: #00ffff; color: #020510; box-shadow: 0 0 18px rgba(0, 255, 255, 0.45); transform: translateY(-1px); }
+
+        .btn-delete {
+            display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px;
+            border: 1.5px solid rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.1); color: #f87171;
+            font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: all 0.2s ease; margin-left: 6px;
+        }
+        .btn-delete:hover { border-color: #ef4444; color: #ffffff; background: #ef4444; box-shadow: 0 0 14px rgba(239, 68, 68, 0.4); transform: translateY(-1px); }
+
+        .empty-state { text-align: center; padding: 70px 24px; }
+        .empty-state-icon {
+            width: 72px; height: 72px; border-radius: 20px; background: rgba(0, 255, 255, 0.1);
+            border: 1.5px solid rgba(0, 255, 255, 0.3); display: inline-flex; align-items: center;
+            justify-content: center; font-size: 2.2rem; color: #00ffff; margin-bottom: 18px; box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        .empty-state h4 { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-bottom: 6px; }
+        .empty-state p { font-size: 0.92rem; color: #94a3b8; margin: 0; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #020510; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.3); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ffff; }
+    </style>
+</head>
+<body>
+<!-- ══ ANIMATED NEURAL BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+<div class="page-shell">
+    <!-- Header Section -->
+    <div class="admin-header">
+        <div class="admin-brand">
+            <div class="admin-brand-icon"><i class="bi bi-people-fill"></i></div>
+            <div class="admin-brand-text">
+                <h1>Registered Candidates</h1>
+                <p>Manage candidate profiles, education details, and attempt permissions</p>
+            </div>
+        </div>
+        <div class="admin-header-actions">
+            <a href="/admin" class="header-icon-btn" style="border-color: #00ffff !important; color: #00ffff !important; background: rgba(0, 255, 255, 0.08) !important; font-family: 'Outfit', sans-serif; font-weight: 800; box-shadow: 0 0 16px rgba(0, 255, 255, 0.25) !important;">
+                <i class="bi bi-arrow-left me-1"></i> BACK
+            </a>
+            <a href="/logout" class="header-icon-btn danger" style="width: 44px; padding: 0;" title="Logout"><i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="filter-bar">
+        <div class="filter-pill">
+            <i class="bi bi-person-lines-fill text-info"></i>
+            CANDIDATE DATABASE:
+            <span class="active-tag">{% if users %}{{ users|length }}{% else %}0{% endif %} ENROLLED</span>
+        </div>
+        <form method="GET" action="/admin/users" class="search-container">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" name="q" id="searchInput" placeholder="Search by name, email, skills..." value="{{ q or '' }}" autocomplete="off">
+        </form>
+    </div>
+
+    <!-- Users Table Panel -->
+    <div class="results-panel">
+        <div class="table-responsive">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Education / Course</th>
+                        <th>Registration Date &amp; Time</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr onclick="window.location='/admin/user/{{ user.id }}'">
+                        <td>
+                            <div class="candidate-cell">
+                                <div class="avatar-circle">{{ user.full_name[0]|upper }}</div>
+                                <div>
+                                    <div class="cand-name d-flex align-items-center gap-2">
+                                        {{ user.full_name }}
+                                        {% if user.auth_provider == "google" %}
+                                            <span class="auth-badge google"><i class="bi bi-google"></i> GOOGLE</span>
+                                        {% elif user.email_verified %}
+                                            <span class="auth-badge verified"><i class="bi bi-patch-check-fill me-1"></i> VERIFIED</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="cand-email">{{ user.email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #ffffff; font-size: 0.95rem;">{{ user.education|upper or '—' }}</div>
+                            <div style="font-size: 0.84rem; color: #00ffff; font-weight: 700; margin-top: 2px;">{{ user.course|upper or '' }}{% if user.semester %} · {{ user.semester }}{% endif %}</div>
+                        </td>
+                        <td>
+                            <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #ffffff; font-size: 0.95rem;">{{ user.registered_at.strftime('%d %b %Y')|upper if user.registered_at else '—' }}</div>
+                            <div style="font-size: 0.84rem; color: #cbd5e1; font-weight: 600; margin-top: 2px;">{{ user.registered_at.strftime('%I:%M %p')|upper if user.registered_at else '—' }}</div>
+                        </td>
+                        <td style="text-align: right;" onclick="event.stopPropagation();" class="text-nowrap">
+                            {% set attempts_used = user_attempt_counts.get(user.id, 0) %}
+                            {% set extra_granted = user.extra_allowed_interviews or 0 %}
+                            {% set allowed_total = (settings.default_allowed_interviews or 2) + extra_granted %}
+                            {% if settings.enable_attempt_limits and attempts_used >= allowed_total %}
+                            <button type="button" class="btn-unlock-attempt me-1" onclick="triggerUnlockCandidate({{ user.id }}, '{{ user.full_name | escape }}')">
+                                <i class="bi bi-unlock-fill me-1"></i> Unlock
+                            </button>
+                            {% endif %}
+                            <a href="/admin/user/{{ user.id }}" class="btn-view">
+                                <i class="bi bi-eye-fill"></i> View
+                            </a>
+                            <a href="/admin/delete-user/{{ user.id }}?next=/admin/users" class="btn-delete"
+                               onclick="return confirm('⚠️ WARNING: CRITICAL DELETION RISK!\n\nThis action cannot be undone.\n- All interview results, transcripts, and scorecards associated with {{ user.full_name }} will be permanently deleted.\n- Active practice sessions will be destroyed.\n- Candidate accounts and login credentials will be removed from the database.\n\nAre you absolutely sure you want to proceed?');">
+                                <i class="bi bi-trash3-fill"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h4>{% if q %}No Matching Candidates{% else %}No Candidates Enrolled Yet{% endif %}</h4>
+                                <p>{% if q %}No candidates found matching the query "{{ q }}".{% else %}Candidate registrations will populate here automatically.{% endif %}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ══ CUSTOM THEME UNLOCK CONFIRMATION MODAL ══ -->
+<div class="modal fade" id="customUnlockModal" tabindex="-1" aria-labelledby="customUnlockModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:24px; border:1.5px solid #334155; background:#08122a; backdrop-filter:blur(20px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);">
+      <div class="modal-header border-0 p-4 pb-2">
+        <h5 class="modal-title fw-bold" id="customUnlockModalLabel" style="color:#00ffff; font-family:'Outfit',sans-serif; letter-spacing:0.02em;">
+          <i class="bi bi-unlock-fill me-2"></i>Authorize Attempt Extension
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 pt-2">
+        <div class="d-flex align-items-start gap-3 mb-3">
+          <div style="background:rgba(0, 255, 255, 0.12); border-radius:16px; width:52px; height:52px; display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1.5px solid rgba(0, 255, 255, 0.35); box-shadow: 0 0 15px rgba(0, 255, 255, 0.25);">
+            <i class="bi bi-person-check-fill fs-3" style="color:#00ffff;"></i>
+          </div>
+          <div>
+            <p class="fw-bold mb-1" style="color:#ffffff; font-family:'Outfit',sans-serif; font-size:1.15rem;">
+              Unlock session access for <span id="modalTargetCandidate" style="color:#00ffff; text-transform:uppercase;">CANDIDATE</span>?
+            </p>
+            <p style="color:#cbd5e1; font-size:0.88rem; margin:0; line-height:1.6;">
+              Executing this authorization will grant this candidate 1 extra assessment slot.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-3 mb-3" style="background:#0b1329; border:1.5px solid #334155; border-radius:16px;">
+          <div class="fw-bold mb-2" style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:#38bdf8; font-family:'Outfit', sans-serif;">
+            <i class="bi bi-shield-check me-1"></i> System Authorization Scope:
+          </div>
+          <ul class="mb-0 ps-3" style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">
+            <li>Grants +1 additional evaluation attempt token.</li>
+            <li>Restores standard AI assessment studio access for candidate.</li>
+            <li>Keeps all prior history and evaluation scorecards completely intact.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer border-0 px-4 pb-4 pt-0 d-flex gap-2">
+        <button type="button" class="btn rounded-pill px-4 fw-semibold flex-fill" data-bs-dismiss="modal" style="background:rgba(255,255,255,0.08); color:#cbd5e1; border:1px solid #475569;">Cancel</button>
+        <button type="button" class="btn rounded-pill px-4 fw-bold flex-fill" id="confirmUnlockModalBtn" style="background:linear-gradient(135deg, #00ffff, #0284c7) !important; color:#020510 !important; border:none; font-family:'Outfit',sans-serif; box-shadow:0 4px 18px rgba(0, 255, 255, 0.35);">
+          <i class="bi bi-unlock-fill me-1"></i> Confirm &amp; Unlock Slot
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+var pendingUnlockUserId = null;
+
+function triggerUnlockCandidate(userId, candidateName) {
+    pendingUnlockUserId = userId;
+    var nameSpan = document.getElementById('modalTargetCandidate');
+    if (nameSpan) nameSpan.textContent = candidateName || 'Candidate';
+    
+    var modalElem = document.getElementById('customUnlockModal');
+    if (modalElem && typeof bootstrap !== 'undefined') {
+        var bsModal = bootstrap.Modal.getOrCreateInstance(modalElem);
+        bsModal.show();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var confirmBtn = document.getElementById('confirmUnlockModalBtn');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            if (!pendingUnlockUserId) return;
+            
+            confirmBtn.disabled = true;
+            confirmBtn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Authorizing...';
+
+            fetch('/admin/user/' + pendingUnlockUserId + '/unlock-attempt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.status === 'success') {
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + (data.message || 'Could not unlock candidate attempt.'));
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = '<i class="bi bi-unlock-fill me-1"></i> Confirm &amp; Unlock Slot';
+                }
+            })
+            .catch(function(err) {
+                alert('Connection Error: ' + err);
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = '<i class="bi bi-unlock-fill me-1"></i> Confirm &amp; Unlock Slot';
+            });
+        });
+    }
+});
+</script>
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>

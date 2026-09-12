@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <title>Placement Evaluation Report — AI Interview Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed AI-generated placement evaluation report for candidate assessment.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        (function() {
+            document.documentElement.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+        })();
+    </script>
+
+    <style>
+        :root {
+            --surface:  #08122a;
+            --bg:       #020510;
+            --bg2:      #0b1633;
+            --border:   #334155;
+            --border2:  #334155;
+            --text-1:   #ffffff;
+            --text-2:   #94a3b8;
+            --indigo:   #00ffff;
+        }
+
+        html.dark-theme {
+            --surface:  #08122a;
+            --bg:       #020510;
+            --bg2:      #0b1633;
+            --border:   #334155;
+            --border2:  #334155;
+            --text-1:   #ffffff;
+            --text-2:   #94a3b8;
+            --indigo:   #00ffff;
+        }
+
+        .meta-link {
+            color: #00ffff !important;
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color 0.2s ease;
+        }
+        .meta-link:hover {
+            text-decoration: none !important;
+            filter: brightness(1.15);
+        }
+
+        .skill-badge {
+            background: rgba(0, 255, 255, 0.12) !important;
+            color: #00ffff !important;
+            border: 1.5px solid rgba(0, 255, 255, 0.3) !important;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .skill-badge:hover {
+            background: rgba(0, 255, 255, 0.25) !important;
+        }
+
+        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            padding: 0 0 60px;
+            color: var(--text-1);
+            background: #020510 !important;
+            background-image: none !important;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* ── Top bar ── */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--indigo);
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .back-btn:hover {
+            background: #eef2ff;
+            border-color: #a5b4fc;
+            color: #3730a3;
+            transform: translateX(-2px);
+        }
+        .back-btn i { font-size: 1rem; }
+
+        .btn-pdf-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #00ffff, #0284c7);
+            color: #020510;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 16px rgba(0,255,255,0.25);
+            text-decoration: none;
+        }
+        .btn-pdf-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0,255,255,0.4);
+            color: #020510;
+        }
+
+        /* ── Panel / Card ── */
+        .panel {
+            background: var(--surface);
+            border: 1.5px solid var(--border2);
+            border-radius: 22px;
+            padding: 32px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #0284c7, #818cf8, #00ffff);
+            background-size: 200% 100%;
+            animation: shimmerBorder 3s linear infinite;
+            border-radius: 22px 22px 0 0;
+        }
+        @keyframes shimmerBorder {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .panel-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-1);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.01em;
+        }
+        .panel-title .title-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--indigo);
+            flex-shrink: 0;
+        }
+
+        /* ── Avatar ── */
+        .avatar-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: #020510 !important;
+            border: 2px solid #00ffff !important;
+            color: #00ffff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            box-shadow: 0 0 16px rgba(0,255,255,0.35) !important;
+            flex-shrink: 0;
+        }
+
+        /* Bold + Caps candidate name */
+        .candidate-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-1);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .candidate-name a {
+            color: #00ffff !important;
+            text-decoration: none;
+            border-bottom: 2px dashed rgba(0,255,255,0.35) !important;
+            transition: border-color 0.2s ease;
+        }
+        .candidate-name a:hover { border-color: #00ffff; }
+
+        .candidate-email {
+            font-size: 0.88rem;
+            color: var(--text-2);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ── Auth badges ── */
+        .auth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.64rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .auth-badge.google {
+            background: #eff6ff;
+            color: #3b82f6;
+            border: 1.5px solid #bfdbfe;
+        }
+        .auth-badge.guest {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1.5px solid #fde68a;
+        }
+        .google-g-icon { width: 13px; height: 13px; }
+
+        /* ── Profile meta cards ── */
+        .profile-divider {
+            border-color: var(--border2);
+            margin: 20px 0 24px;
+        }
+
+        .meta-card {
+            background: var(--bg2);
+            border: 1.5px solid var(--border2);
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+            transition: all 0.2s ease;
+        }
+        .meta-card:hover {
+            background: var(--bg);
+            border-color: var(--border);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79,70,229,0.1);
+        }
+
+        .meta-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .gender-icon    { background: #ecfdf5;  color: #059669; }
+        .education-icon { background: #eff6ff;  color: #3b82f6; }
+        .course-icon    { background: #fffbeb;  color: #d97706; }
+        .semester-icon  { background: #fef2f2;  color: #ef4444; }
+
+        .meta-card-label {
+            font-size: 0.67rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }
+
+        .meta-card-val {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-1);
+        }
+
+        /* ── Score Ring ── */
+        .report-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 32px;
+            padding-bottom: 28px;
+            border-bottom: 1.5px solid var(--border2);
+        }
+
+        .score-ring-wrap {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .score-ring {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: #fff;
+            background:
+                radial-gradient(closest-side, var(--surface) 76%, transparent 77% 100%),
+                conic-gradient(var(--ring-color) var(--ring-pct), var(--border2) 0);
+            flex-shrink: 0;
+            filter: drop-shadow(0 4px 12px var(--ring-color));
+        }
+
+        /* inner number in ring */
+        .score-ring-inner {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-1);
+            position: absolute;
+        }
+
+        .score-ring-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .score-label {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-1);
+        }
+
+        .score-date {
+            font-size: 0.82rem;
+            color: var(--text-2);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .verdict-pill {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.88rem;
+            padding: 12px 26px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .verdict-pill.selected {
+            background: #ecfdf5;
+            color: #059669;
+            border: 2px solid #a7f3d0;
+        }
+        .verdict-pill.rejected {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 2px solid #fecaca;
+        }
+
+        /* ── Summary section ── */
+        .summary-heading {
+            font-size: 0.71rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .summary-rule {
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #0284c7);
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+
+        .summary-text {
+            font-size: 0.97rem;
+            line-height: 1.9;
+            color: var(--text-2);
+        }
+        .summary-text p { margin-bottom: 16px; }
+
+        /* ── Print ── */
+        @media print {
+            body {  padding: 0 !important; color: #000 !important; }
+            body::before { display: none; }
+            .top-bar, .btn-pdf-download, .back-btn { display: none !important; }
+            .panel {
+                background: #fff !important;
+                border: 1px solid #e2e8f0 !important;
+                box-shadow: none !important;
+                padding: 24px !important;
+                margin-bottom: 16px !important;
+                page-break-inside: avoid;
+            }
+            .panel::before { display: none; }
+            .candidate-name, .panel-title, .meta-card-val, .score-label { color: #1a2036 !important; }
+            .score-ring { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .verdict-pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .summary-text { color: #333 !important; }
+        }
+
+        html.dark-theme .verdict-pill.selected { background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.35); }
+        html.dark-theme .verdict-pill.rejected { background: rgba(220, 38, 38, 0.15); color: #f87171; border-color: rgba(220, 38, 38, 0.35); }
+        html.dark-theme .auth-badge.google { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.35); }
+        html.dark-theme .auth-badge.guest { background: rgba(217, 119, 6, 0.15); color: #fbbf24; border-color: rgba(217, 119, 6, 0.35); }
+        html.dark-theme .gender-icon { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        html.dark-theme .education-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        html.dark-theme .course-icon { background: rgba(217, 119, 6, 0.15); color: #fbbf24; }
+        html.dark-theme .semester-icon { background: rgba(220, 38, 38, 0.15); color: #f87171; }
+        html.dark-theme .panel {
+            background: rgba(5, 12, 28, 0.65) !important;
+            border-color: rgba(0, 255, 255, 0.18) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        html.dark-theme .panel:hover {
+            border-color: rgba(0, 255, 255, 0.35) !important;
+        }
+        html.dark-theme .meta-card {
+            background: rgba(5, 12, 28, 0.5) !important;
+            border-color: rgba(0, 255, 255, 0.12) !important;
+        }
+        html.dark-theme .meta-card:hover {
+            border-color: rgba(0, 255, 255, 0.3) !important;
+            box-shadow: 0 4px 16px rgba(0,255,255,0.08);
+        }
+        html.dark-theme .panel-title .title-icon {
+            background: rgba(0, 255, 255, 0.08);
+            border-color: rgba(0, 255, 255, 0.15);
+            color: #00ffff;
+        }
+        html.dark-theme .score-ring {
+            filter: drop-shadow(0 4px 16px rgba(0,255,255,0.3));
+        }
+        html.dark-theme .candidate-name a {
+            border-bottom-color: rgba(0, 255, 255, 0.3);
+        }
+        html.dark-theme .candidate-name a:hover {
+            border-bottom-color: #00ffff;
+        }
+        /* ══ GOATED BG OVERRIDES ══ */
+        html.dark-theme body {
+            background: #020510 !important;
+            background-image: none !important;
+        }
+        .db-bg {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden; display: none;
+        }
+        html.dark-theme .db-bg { display: block; }
+        .db-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0,150,255,0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100,0,255,0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0,255,220,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0,80,255,0.12) 0%, transparent 50%),
+                linear-gradient(160deg,#02060f 0%,#010416 30%,#020820 60%,#010512 100%);
+        }
+        .db-orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0; animation:orbDrift 18s ease-in-out infinite; }
+        .db-orb-1 { width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,rgba(0,120,255,0.30) 0%,transparent 70%);animation-delay:0s;animation-duration:20s; }
+        .db-orb-2 { width:400px;height:400px;top:10%;right:-80px;background:radial-gradient(circle,rgba(120,0,255,0.22) 0%,transparent 70%);animation-delay:-7s;animation-duration:24s; }
+        .db-orb-3 { width:480px;height:480px;bottom:-80px;left:30%;background:radial-gradient(circle,rgba(0,200,255,0.18) 0%,transparent 70%);animation-delay:-13s;animation-duration:22s; }
+        .db-orb-4 { width:300px;height:300px;top:45%;right:25%;background:radial-gradient(circle,rgba(60,0,180,0.16) 0%,transparent 70%);animation-delay:-4s;animation-duration:19s; }
+        .db-orb-5 { width:350px;height:350px;bottom:10%;right:-50px;background:radial-gradient(circle,rgba(0,255,180,0.12) 0%,transparent 70%);animation-delay:-9s;animation-duration:26s; }
+        @keyframes orbDrift {
+            0%   { opacity:0.6; transform:translate(0,0) scale(1); }
+            25%  { opacity:0.8; transform:translate(30px,-20px) scale(1.05); }
+            50%  { opacity:0.55; transform:translate(-20px,30px) scale(0.97); }
+            75%  { opacity:0.75; transform:translate(15px,10px) scale(1.03); }
+            100% { opacity:0.6; transform:translate(0,0) scale(1); }
+        }
+        .db-grid {
+            position:absolute; inset:0;
+            background-image: linear-gradient(rgba(0,200,255,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,255,0.035) 1px,transparent 1px);
+            background-size:60px 60px;
+            mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+            -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+        }
+        .db-particles { position:absolute; inset:0; }
+        .db-star { position:absolute; border-radius:50%; background:#ffffff; animation:starTwinkle linear infinite; }
+        @keyframes starTwinkle {
+            0%,100% { opacity:0.05; transform:scale(1); }
+            50%      { opacity:0.55; transform:scale(1.6); }
+        }
+        .db-topbar-glow {
+            position:absolute; top:0; left:0; right:0; height:2px;
+            background:linear-gradient(90deg,transparent 0%,rgba(0,200,255,0.7) 30%,rgba(120,0,255,0.7) 70%,transparent 100%);
+            animation:topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+        ::-webkit-scrollbar{width:6px;height:6px;}
+        ::-webkit-scrollbar-track{background:transparent;}
+        ::-webkit-scrollbar-thumb{background:rgba(0,255,255,0.2);border-radius:99px;}
+        ::-webkit-scrollbar-thumb:hover{background:#00ffff;}
+    </style>
+</head>
+<body>
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+<div class="page-shell">
+
+    <!-- Top Bar -->
+    <div class="top-bar anim anim-1">
+        <button onclick="window.print()" class="btn-pdf-download">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 1 0-.708.708z"/>
+            </svg>
+            Download PDF Report
+        </button>
+
+        <div class="d-flex align-items-center gap-2">
+            <button class="back-btn" id="themeToggle" title="Toggle Theme" style="padding: 9px 14px;">
+                <i class="bi bi-moon-fill" id="themeToggleIcon" style="transition: transform 0.2s ease;"></i>
+            </button>
+            <a href="/admin" class="back-btn-global"><i class="bi bi-arrow-left"></i> BACK</a>
+        </div>
+    </div>
+
+    <!-- Candidate Profile Section -->
+    <div class="profile-hero mb-4" style="background: #08122a !important; border: 1.5px solid #334155 !important; border-radius: 24px; padding: 36px 40px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2" style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #ffffff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                <i class="bi bi-person-badge-fill" style="color: #00ffff;"></i> Candidate Profile
+            </div>
+            {% if candidate and candidate.resume_filename %}
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#userResumeModal" style="border: 1.5px solid rgba(0, 255, 255, 0.35); background: rgba(0, 255, 255, 0.08); color: #00ffff; font-weight: 700; font-size: 0.82rem; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="bi bi-file-earmark-text"></i> User Resume
+            </button>
+            {% endif %}
+        </div>
+
+        <div class="d-flex align-items-center gap-4 flex-wrap mb-4">
+            <div class="profile-avatar" style="width: 68px; height: 68px; border-radius: 18px; background: linear-gradient(135deg, #00ffff, #0284c7) !important; color: #020510 !important; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.6rem; box-shadow: 0 0 20px rgba(0, 255, 255, 0.35) !important; flex-shrink: 0;">{{ candidate.full_name[0]|upper if candidate and candidate.full_name else 'C' }}</div>
+            <div class="flex-grow-1">
+                <h1 class="profile-name d-flex align-items-center gap-2" style="color: #00ffff !important; font-weight: 800; text-transform: uppercase; margin: 0; font-size: 1.6rem; letter-spacing: -0.01em;">
+                    {% if candidate %}
+                    <a href="/admin/user/{{ candidate.id }}" style="color: #00ffff !important; text-decoration: none; border-bottom: 2px dashed rgba(0,255,255,0.35);">{{ candidate.full_name|upper }}</a>
+                    {% else %}
+                    <span>CANDIDATE (NOT FOUND)</span>
+                    {% endif %}
+                </h1>
+                <div class="d-flex align-items-center gap-3 flex-wrap mt-2">
+                    {% if candidate and candidate.email %}
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ candidate.email }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: #cbd5e1; font-weight: 500; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#00ffff';" onmouseout="this.style.color='#cbd5e1';" title="Compose email in Gmail for {{ candidate.email }}"><i class="bi bi-envelope-fill me-1"></i>{{ candidate.email }}</a>
+                    {% endif %}
+                    {% if candidate and candidate.auth_provider == "google" %}
+                        <span class="auth-badge google d-inline-flex align-items-center" style="font-weight:700;font-size:0.75rem;letter-spacing:0.02em; border-color: rgba(66, 133, 244, 0.4) !important; color: #60a5fa !important; background: rgba(66, 133, 244, 0.15) !important; border: 1.5px solid rgba(66, 133, 244, 0.4); padding: 2px 8px; border-radius: 6px;">
+                            <svg class="google-g-icon" viewBox="0 0 48 48" style="width:16px;height:16px;margin-right:4px;flex-shrink:0;">
+                                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                            </svg>
+                            GOOGLE
+                        </span>
+                    {% elif candidate and candidate.email_verified %}
+                        <span class="auth-badge d-inline-flex align-items-center" style="background: rgba(16, 185, 129, 0.12) !important; color: #34d399 !important; border: 1.5px solid rgba(16, 185, 129, 0.4) !important; font-weight: 900; font-size: 0.75rem; letter-spacing: 0.02em; padding: 2px 8px; border-radius: 6px;">
+                            VERIFIED
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Attribute Blocks -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(16, 185, 129, 0.15) !important; color: #10b981 !important; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-gender-ambiguous"></i></div>
+                    <div>
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Gender</div>
+                        <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff; text-transform: uppercase;">{{ candidate.gender or '—' if candidate else '—' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-mortarboard-fill"></i></div>
+                    <div>
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Education Level</div>
+                        <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff; text-transform: uppercase;">{{ candidate.education or '—' if candidate else '—' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(245, 158, 11, 0.15) !important; color: #f59e0b !important; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-book-half"></i></div>
+                    <div>
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Course</div>
+                        <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff; text-transform: uppercase;">{{ candidate.course or '—' if candidate else '—' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(239, 68, 68, 0.15) !important; color: #ef4444 !important; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-calendar3-event"></i></div>
+                    <div>
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Semester</div>
+                        <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff; text-transform: uppercase;">{{ candidate.semester or '—' if candidate else '—' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Github / Linkedin / Skills row -->
+        <div class="row g-3 mb-2">
+            <div class="col-md-4">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; min-height: 72px;">
+                    <div style="background: rgba(255, 255, 255, 0.1) !important; color: #ffffff !important; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"><i class="bi bi-github"></i></div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Github</div>
+                        {% if candidate and candidate.github_url %}
+                        <a href="{{ candidate.github_url }}" target="_blank" rel="noopener" style="font-size: 0.9rem; font-weight: 700; color: #00ffff; text-decoration: none; overflow: hidden; text-overflow: ellipsis; display: block;">{{ candidate.github_url.replace('https://github.com/', '') }}</a>
+                        {% else %}
+                        <span style="font-size: 0.9rem; font-weight: 700; color: #ffffff;">—</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; min-height: 72px;">
+                    <div style="background: rgba(10, 102, 194, 0.15) !important; color: #00a0dc !important; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"><i class="bi bi-linkedin"></i></div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">LinkedIn</div>
+                        {% if candidate and candidate.linkedin_url %}
+                        <a href="{{ candidate.linkedin_url }}" target="_blank" rel="noopener" style="font-size: 0.9rem; font-weight: 700; color: #00ffff; text-decoration: none; overflow: hidden; text-overflow: ellipsis; display: block;">{{ candidate.linkedin_url.replace('https://www.linkedin.com/in/', '') }}</a>
+                        {% else %}
+                        <span style="font-size: 0.9rem; font-weight: 700; color: #ffffff;">—</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="background: #0b1329; border: 1.5px solid #334155; border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; min-height: 72px; width: 100%;">
+                    <div style="background: rgba(6, 182, 212, 0.15) !important; color: #06b6d4 !important; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"><i class="bi bi-cpu"></i></div>
+                    <div>
+                        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Skills</div>
+                        <div class="d-flex flex-wrap gap-1 mt-1">
+                             {% if candidate and candidate.skills %}
+                                {% for skill in candidate.skills.split(',') %}
+                                <a href="https://www.google.com/search?q={{ skill.strip()|urlencode }}" target="_blank" style="background: rgba(0, 255, 255, 0.12); border: 1px solid rgba(0, 255, 255, 0.3); color: #00ffff; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(0, 255, 255, 0.25)'" onmouseout="this.style.background='rgba(0, 255, 255, 0.12)'">{{ skill.strip() }}</a>
+                                {% endfor %}
+                            {% else %}
+                                <span style="font-size: 0.9rem; font-weight: 700; color: #ffffff;">—</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Timestamp details inside card bottom -->
+        <div class="mt-4 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.78rem; font-weight: 600; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+            <i class="bi bi-calendar-event"></i> REGISTERED ON <span style="color: #00ffff;">{{ candidate.registered_at.strftime('%d %b %Y, %I:%M %p')|upper if candidate and candidate.registered_at else '—' }}</span>
+        </div>
+    </div>
+
+    <!-- Evaluation Report Panel -->
+    <div class="panel anim anim-3">
+        <div class="panel-title"><span class="title-icon"><i class="bi bi-clipboard-data-fill"></i></span> Placement Evaluation Report</div>
+
+        {% if result.is_terminated or (result.status and "Terminated" in result.status) %}
+        <div class="p-3 mb-4" style="background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 14px; color: #fca5a5;">
+            <div class="d-flex align-items-center gap-2 mb-1" style="color: #ef4444; font-weight: 800; font-family: 'Outfit', sans-serif;">
+                <i class="bi bi-shield-slash-fill fs-5" style="color: #f87171;"></i> PROCTORING SECURITY DISQUALIFICATION ALERT
+            </div>
+            <div style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.5;">
+                This assessment session was <strong>automatically terminated</strong> by the platform anti-cheating system.
+                <br>
+                <span style="color: #fca5a5; font-weight: 600;"><i class="bi bi-info-circle me-1"></i> Violation Reason:</span> {{ result.termination_reason or "Repeated window focus loss / tab switching detected during active assessment." }}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="report-header">
+            <div class="score-ring-wrap">
+                <div class="score-ring-container">
+                    <div class="score-ring" style="--ring-color: {{ '#10b981' if (result.status == 'Selected' or 'PASS' in result.status) and not result.is_terminated else '#ef4444' }}; --ring-pct: {{ (result.score|float / 10 * 100)|round|int }}%;"></div>
+                    <span class="score-ring-inner">{{ result.score }}</span>
+                </div>
+                <div>
+                    <div class="score-label">{{ result.score }} / 10</div>
+                    <div class="score-date"><i class="bi bi-clock me-1"></i>{{ result.interview_datetime.strftime('%d %b %Y, %I:%M %p') }}</div>
+                </div>
+            </div>
+            {% if result.is_terminated or (result.status and "Terminated" in result.status) %}
+            <div class="verdict-pill rejected" style="background: rgba(239, 68, 68, 0.2) !important; color: #f87171 !important; border: 1px solid rgba(239, 68, 68, 0.4) !important;">
+                <i class="bi bi-shield-slash-fill"></i> Terminated
+            </div>
+            {% elif result.status in ["Selected", "PASS"] or (result.status and "WELL DONE" in result.status) %}
+            <div class="verdict-pill selected">
+                <i class="bi bi-check-circle-fill"></i> Recommended
+            </div>
+            {% else %}
+            <div class="verdict-pill rejected">
+                <i class="bi bi-x-circle-fill"></i> Not Recommended
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="summary-heading">Performance Summary</div>
+        <div class="summary-rule"></div>
+        <div class="summary-text">
+            {% for para in result.summary.split('\n') if para.strip() %}
+            <p>{{ para }}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<!-- ══ CANDIDATE RESUME MODAL ══ -->
+{% if candidate %}
+<div class="modal fade" id="userResumeModal" tabindex="-1" aria-labelledby="userResumeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" style="background:var(--surface);border:1.5px solid var(--border2);border-radius:18px;">
+      <div class="modal-header border-0 p-4 pb-2 d-flex align-items-center justify-content-between">
+        <h5 class="modal-title fw-bold" id="userResumeModalLabel" style="font-family:'Outfit',sans-serif;color:var(--text-1);">
+          <i class="bi bi-file-earmark-person-fill me-2" style="color:var(--indigo);"></i>Candidate Resume — {{ candidate.full_name | upper }}
+        </h5>
+        <div class="d-flex align-items-center gap-2">
+          {% if candidate.resume_filename %}
+          <a href="/uploads/resumes/{{ candidate.resume_filename }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-semibold">
+            <i class="bi bi-box-arrow-up-right me-1"></i> Open Original File
+          </a>
+          {% endif %}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body p-4 pt-2">
+        {% if candidate.resume_filename %}
+          {% set ext = candidate.resume_filename.rsplit('.', 1)[1].lower() %}
+          {% if ext in ['png', 'jpg', 'jpeg'] %}
+            <!-- Image resume view -->
+            <div style="text-align:center;background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:16px;max-height:70vh;overflow-y:auto;">
+              <img src="/uploads/resumes/{{ candidate.resume_filename }}" alt="Candidate Resume" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+            </div>
+          {% elif ext == 'pdf' %}
+            <!-- PDF resume view -->
+            <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;overflow:hidden;height:75vh;">
+              <object data="/uploads/resumes/{{ candidate.resume_filename }}" type="application/pdf" style="width:100%;height:100%;">
+                <iframe src="/uploads/resumes/{{ candidate.resume_filename }}" style="width:100%;height:100%;border:none;">
+                  <p>Your browser does not support inline PDFs. <a href="/uploads/resumes/{{ candidate.resume_filename }}" target="_blank">Click here to view the PDF file.</a></p>
+                </iframe>
+              </object>
+            </div>
+          {% else %}
+            <!-- Other document types -->
+            <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:24px;text-align:center;">
+              <i class="bi bi-file-earmark-word-fill" style="font-size:3rem;color:var(--indigo);"></i>
+              <h6 class="fw-bold mt-2" style="color:var(--text-1);">Original File: {{ candidate.resume_filename }}</h6>
+              <a href="/uploads/resumes/{{ candidate.resume_filename }}" download class="btn btn-primary rounded-pill px-4 mt-2 fw-bold">
+                <i class="bi bi-download me-1"></i> Download File
+              </a>
+            </div>
+            {% if candidate.resume_text %}
+            <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-top:16px;font-family:'Inter',sans-serif;font-size:0.9rem;line-height:1.7;color:var(--text-1);white-space:pre-wrap;max-height:40vh;overflow-y:auto;">{{ candidate.resume_text }}</div>
+            {% endif %}
+          {% endif %}
+        {% elif candidate.resume_text %}
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;font-family:'Inter',sans-serif;font-size:0.9rem;line-height:1.7;color:var(--text-1);white-space:pre-wrap;max-height:60vh;overflow-y:auto;">{{ candidate.resume_text }}</div>
+        {% else %}
+          <div style="background:var(--bg2);border:1px dashed var(--border2);border-radius:12px;padding:40px 20px;text-align:center;">
+            <i class="bi bi-file-earmark-x" style="font-size:2.5rem;color:var(--text-muted);display:block;margin-bottom:10px;"></i>
+            <h6 class="fw-bold" style="color:var(--text-1);">No Resume Available</h6>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">This candidate has not uploaded a resume document yet.</p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="modal-footer border-0 p-4 pt-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 fw-semibold" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    /* ── Theme Toggler ── */
+    (function() {
+        var toggleBtn = document.getElementById('themeToggle');
+        var toggleIcon = document.getElementById('themeToggleIcon');
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                toggleIcon.className = 'bi bi-sun-fill';
+                toggleIcon.style.color = '#fbbf24';
+            } else {
+                toggleIcon.className = 'bi bi-moon-fill';
+                toggleIcon.style.color = '';
+            }
+        }
+
+        var currentTheme = localStorage.getItem('theme') || 'dark';
+        updateIcon(currentTheme);
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+            document.body.classList.add('dark-theme');
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            var theme = localStorage.getItem('theme') || 'dark';
+            var newTheme = theme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+            if (newTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+                document.body.classList.add('dark-theme');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+                document.body.classList.remove('dark-theme');
+            }
+        });
+    })();
+</script>
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>

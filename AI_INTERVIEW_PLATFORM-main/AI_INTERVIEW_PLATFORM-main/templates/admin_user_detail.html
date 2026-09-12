@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <title>Candidate Profile — AI Recruitment Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed candidate profile and assessment history for admin review.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        (function() {
+            document.documentElement.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+        })();
+    </script>
+    <style>
+        :root {
+            --surface: #ffffff;
+            --bg: #f0f4ff;
+            --border: #e0e7ff;
+            --text-1: #1e293b;
+            --text-2: #64748b;
+            --brand: #2563eb;
+        }
+        html.dark-theme {
+            --surface: #08122a;
+            --bg: #020510;
+            --border: #334155;
+            --text-1: #ffffff;
+            --text-2: #cbd5e1;
+            --brand: #00ffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-1);
+            min-height: 100vh;
+            padding: 0 0 60px;
+            background: #020510 !important;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 36px 24px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--brand);
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover {
+            background: var(--brand);
+            color: #fff;
+            border-color: var(--brand);
+            transform: translateX(-2px);
+        }
+
+        .btn-del-user {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            background: transparent;
+            border: 1.5px solid #fca5a5;
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-del-user:hover {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #dc2626;
+            transform: translateY(-1px);
+        }
+        html.dark-theme .btn-del-user {
+            border-color: rgba(239,68,68,0.35);
+            color: #f87171;
+        }
+        html.dark-theme .btn-del-user:hover {
+            background: rgba(239,68,68,0.12);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        /* ── Profile hero card ── */
+        .profile-hero {
+            background: #08122a !important;
+            border: 1.5px solid #334155 !important;
+            border-radius: 24px;
+            padding: 36px 40px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #0088ff) !important;
+        }
+
+        .profile-avatar {
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            background: #020510 !important;
+            border: 2px solid #00ffff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: #00ffff !important;
+            box-shadow: 0 0 20px rgba(0,255,255,0.3) !important;
+            flex-shrink: 0;
+        }
+
+        .profile-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.45rem;
+            color: #ffffff;
+            margin: 0 0 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .auth-google {
+            background: rgba(66,133,244,0.1);
+            border: 1.5px solid #bfdbfe;
+            color: #2563eb;
+        }
+        .auth-guest {
+            background: rgba(245,158,11,0.1);
+            border: 1.5px solid #fde68a;
+            color: #d97706;
+        }
+        .auth-otp {
+            background: rgba(16,185,129,0.1);
+            border: 1.5px solid #a7f3d0;
+            color: #10b981;
+        }
+        html.dark-theme .auth-google { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); color: #60a5fa; }
+        html.dark-theme .auth-guest  { background: rgba(217,119,6,0.12);  border-color: rgba(217,119,6,0.35);  color: #fbbf24; }
+        html.dark-theme .auth-otp    { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.35); color: #34d399; }
+
+        /* ── Info grid ── */
+        .info-section {
+            background: #08122a !important;
+            border: 1.5px solid #334155 !important;
+            border-radius: 20px;
+            padding: 32px 40px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-2);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+
+        .info-item {}
+        .info-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--text-2);
+            margin-bottom: 5px;
+        }
+        .info-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-1);
+            word-break: break-word;
+        }
+        .info-value a {
+            color: var(--brand);
+            text-decoration: none;
+        }
+        .info-value a:hover { text-decoration: none; }
+
+        /* ── Social Link Badges ── */
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 99px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.83rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.18s ease;
+            max-width: 100%;
+            word-break: break-all;
+        }
+        .social-link-github {
+            background: rgba(36,41,47,0.08);
+            border: 1.5px solid rgba(36,41,47,0.2);
+            color: #24292f;
+        }
+        .social-link-github:hover {
+            background: rgba(36,41,47,0.15);
+            border-color: #24292f;
+            color: #24292f;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(36,41,47,0.15);
+        }
+        .social-link-linkedin {
+            background: rgba(10,102,194,0.08);
+            border: 1.5px solid rgba(10,102,194,0.25);
+            color: #0a66c2;
+        }
+        .social-link-linkedin:hover {
+            background: rgba(10,102,194,0.15);
+            border-color: #0a66c2;
+            color: #0a66c2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(10,102,194,0.18);
+        }
+        html.dark-theme .social-link-github {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.18);
+            color: #e6edf3;
+        }
+        html.dark-theme .social-link-github:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.35);
+            color: #ffffff;
+        }
+        html.dark-theme .social-link-linkedin {
+            background: rgba(10,102,194,0.12);
+            border-color: rgba(10,102,194,0.35);
+            color: #60a5fa;
+        }
+        html.dark-theme .social-link-linkedin:hover {
+            background: rgba(10,102,194,0.22);
+            border-color: #60a5fa;
+            color: #93c5fd;
+        }
+        .social-link i { font-size: 1rem; flex-shrink: 0; }
+        .social-link-url {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 260px;
+        }
+
+        /* ── History table ── */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .history-table thead tr {
+            border-bottom: 2px solid var(--border);
+        }
+        .history-table thead th {
+            padding: 12px 16px;
+            font-size: 0.69rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: var(--text-2);
+            text-align: left;
+        }
+        .history-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s ease;
+        }
+        .history-table tbody tr:last-child { border-bottom: none; }
+        .history-table tbody tr:hover { background: rgba(37,99,235,0.04); }
+        html.dark-theme .history-table tbody tr:hover { background: rgba(99,102,241,0.08); }
+        .history-table tbody td {
+            padding: 14px 16px;
+            font-size: 0.9rem;
+            color: var(--text-1);
+            vertical-align: middle;
+        }
+        .verdict-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 11px;
+            border-radius: 8px;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+        .verdict-pill.selected {
+            background: #ecfdf5; color: #059669; border: 1.5px solid #a7f3d0;
+        }
+        .verdict-pill.rejected {
+            background: #fef2f2; color: #dc2626; border: 1.5px solid #fecaca;
+        }
+        html.dark-theme .verdict-pill.selected { background: rgba(16,185,129,0.12); color: #34d399; border-color: rgba(16,185,129,0.35); }
+        html.dark-theme .verdict-pill.rejected { background: rgba(220,38,38,0.12); color: #f87171; border-color: rgba(220,38,38,0.35); }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-2);
+            font-size: 0.9rem;
+        }
+        .empty-state i { font-size: 2rem; display: block; margin-bottom: 10px; opacity: 0.5; }
+
+        @media (max-width: 640px) {
+            .profile-hero { padding: 24px 20px; }
+            .info-section { padding: 24px 20px; }
+        }
+/* ══ GOATED BG OVERRIDES ══ */
+html.dark-theme body {
+    background: #020510 !important;
+    background-image: none !important;
+}
+.db-bg {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; overflow: hidden; display: none;
+}
+html.dark-theme .db-bg { display: block; }
+.db-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0,150,255,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100,0,255,0.14) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0,255,220,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0,80,255,0.12) 0%, transparent 50%),
+        linear-gradient(160deg,#02060f 0%,#010416 30%,#020820 60%,#010512 100%);
+}
+.db-orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0; animation:orbDrift 18s ease-in-out infinite; }
+.db-orb-1 { width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,rgba(0,120,255,0.30) 0%,transparent 70%);animation-delay:0s;animation-duration:20s; }
+.db-orb-2 { width:400px;height:400px;top:10%;right:-80px;background:radial-gradient(circle,rgba(120,0,255,0.22) 0%,transparent 70%);animation-delay:-7s;animation-duration:24s; }
+.db-orb-3 { width:480px;height:480px;bottom:-80px;left:30%;background:radial-gradient(circle,rgba(0,200,255,0.18) 0%,transparent 70%);animation-delay:-13s;animation-duration:22s; }
+.db-orb-4 { width:300px;height:300px;top:45%;right:25%;background:radial-gradient(circle,rgba(60,0,180,0.16) 0%,transparent 70%);animation-delay:-4s;animation-duration:19s; }
+.db-orb-5 { width:350px;height:350px;bottom:10%;right:-50px;background:radial-gradient(circle,rgba(0,255,180,0.12) 0%,transparent 70%);animation-delay:-9s;animation-duration:26s; }
+@keyframes orbDrift {
+    0%   { opacity:0.6; transform:translate(0,0) scale(1); }
+    25%  { opacity:0.8; transform:translate(30px,-20px) scale(1.05); }
+    50%  { opacity:0.55; transform:translate(-20px,30px) scale(0.97); }
+    75%  { opacity:0.75; transform:translate(15px,10px) scale(1.03); }
+    100% { opacity:0.6; transform:translate(0,0) scale(1); }
+}
+.db-grid {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(0,200,255,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,255,0.035) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+}
+.db-particles { position:absolute; inset:0; }
+.db-star { position:absolute; border-radius:50%; background:#ffffff; animation:starTwinkle linear infinite; }
+@keyframes starTwinkle {
+    0%,100% { opacity:0.05; transform:scale(1); }
+    50%      { opacity:0.55; transform:scale(1.6); }
+}
+.db-topbar-glow {
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent 0%,rgba(0,200,255,0.7) 30%,rgba(120,0,255,0.7) 70%,transparent 100%);
+    animation:topbarGlowPulse 4s ease-in-out infinite;
+}
+@keyframes topbarGlowPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(0,255,255,0.2);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:#00ffff;}
+    </style>
+</head>
+<body>
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+<div class="page-shell">
+
+    <div class="top-bar">
+        <a href="/admin/users" class="back-btn-global">
+            <i class="bi bi-arrow-left"></i> BACK
+        </a>
+        <a href="/admin/delete-user/{{ user.id }}?next=/admin/users" class="btn-del-user"
+           onclick="return confirm('⚠️ WARNING: CRITICAL DELETION RISK!\n\nThis action cannot be undone.\n- All interview results, transcripts, and scorecards associated with {{ user.full_name }} will be permanently deleted.\n- Active practice sessions will be destroyed.\n- Candidate accounts and login credentials will be removed from the database.\n\nAre you absolutely sure you want to proceed?');">
+            <i class="bi bi-trash"></i> Delete User
+        </a>
+    </div>
+
+    <!-- Profile Hero -->
+    <!-- Candidate Profile Section (Redesigned as per user request layout) -->
+    <div class="profile-hero">
+        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2" style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #ffffff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                <i class="bi bi-person-badge-fill" style="color: #00ffff;"></i> Candidate Profile
+            </div>
+            {% if user.resume_filename or user.resume_text %}
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#userResumeModal" style="border: 1.5px solid rgba(0, 255, 255, 0.2); background: rgba(0, 255, 255, 0.05); color: #00ffff; font-weight: 600; font-size: 0.8rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="bi bi-file-earmark-text"></i> User Resume
+            </button>
+            {% endif %}
+        </div>
+
+        <div class="d-flex align-items-center gap-4 flex-wrap mb-4">
+            <div class="profile-avatar" style="width: 68px; height: 68px; border-radius: 18px; background: linear-gradient(135deg, #00ffff, #0088ff) !important; color: #020510 !important; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.6rem; box-shadow: 0 0 16px rgba(0, 255, 255, 0.35) !important; flex-shrink: 0;">{{ user.full_name[0]|upper }}</div>
+            <div class="flex-grow-1">
+                <h1 class="profile-name d-flex align-items-center gap-2" style="color: #00ffff !important; font-weight: 800; text-transform: uppercase; margin: 0; font-size: 1.6rem; letter-spacing: -0.01em;">
+                    {{ user.full_name|upper }}
+                </h1>
+                <div class="d-flex align-items-center gap-3 flex-wrap mt-2">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ user.email }}" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: #94a3b8; font-weight: 500; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#00ffff';" onmouseout="this.style.color='#94a3b8';" title="Compose email in Gmail for {{ user.email }}"><i class="bi bi-envelope-fill me-1"></i>{{ user.email }}</a>
+                    {% if user.auth_provider == "google" %}
+                        <span class="auth-badge google d-inline-flex align-items-center" style="font-weight:700;font-size:0.75rem;letter-spacing:0.02em; border-color: rgba(66, 133, 244, 0.4) !important; color: #60a5fa !important; background: rgba(66, 133, 244, 0.15) !important; border: 1.5px solid rgba(66, 133, 244, 0.4); padding: 2px 8px; border-radius: 6px;">
+                            <svg class="google-g-icon" viewBox="0 0 48 48" style="width:16px;height:16px;margin-right:4px;flex-shrink:0;">
+                                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                            </svg>
+                            GOOGLE
+                        </span>
+                    {% elif user.email_verified %}
+                        <span class="auth-badge d-inline-flex align-items-center" style="background: rgba(16, 185, 129, 0.12) !important; color: #34d399 !important; border: 1.5px solid rgba(16, 185, 129, 0.4) !important; font-weight: 900; font-size: 0.75rem; letter-spacing: 0.02em; padding: 2px 8px; border-radius: 6px;">
+                            VERIFIED
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Attribute Blocks -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(16, 185, 129, 0.15) !important; color: #10b981 !important; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-gender-ambiguous"></i></div>
+                    <div>
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Gender</div>
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #ffffff; text-transform: uppercase;">{{ user.gender or '—' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(59, 130, 246, 0.15) !important; color: #3b82f6 !important; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-mortarboard-fill"></i></div>
+                    <div>
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Education Level</div>
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #ffffff; text-transform: uppercase;">{{ user.education or '—' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(245, 158, 11, 0.15) !important; color: #f59e0b !important; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-book-half"></i></div>
+                    <div>
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Course</div>
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #ffffff; text-transform: uppercase;">{{ user.course or '—' }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="background: rgba(239, 68, 68, 0.15) !important; color: #ef4444 !important; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="bi bi-calendar3-event"></i></div>
+                    <div>
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Semester</div>
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #ffffff; text-transform: uppercase;">{{ user.semester or '—' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Github / Linkedin / Skills row -->
+        <div class="row g-3 mb-2">
+            <div class="col-md-4">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; min-height: 72px;">
+                    <div style="background: rgba(255, 255, 255, 0.1) !important; color: #ffffff !important; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"><i class="bi bi-github"></i></div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Github</div>
+                        {% if user.github_url %}
+                        <a href="{{ user.github_url }}" target="_blank" rel="noopener" style="font-size: 0.9rem; font-weight: 700; color: #00ffff; text-decoration: none; overflow: hidden; text-overflow: ellipsis; display: block;">{{ user.github_url.replace('https://github.com/', '') }}</a>
+                        {% else %}
+                        <span style="font-size: 0.9rem; font-weight: 700; color: #ffffff;">—</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; min-height: 72px;">
+                    <div style="background: rgba(10, 102, 194, 0.15) !important; color: #00a0dc !important; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"><i class="bi bi-linkedin"></i></div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">LinkedIn</div>
+                        {% if user.linkedin_url %}
+                        <a href="{{ user.linkedin_url }}" target="_blank" rel="noopener" style="font-size: 0.9rem; font-weight: 700; color: #00ffff; text-decoration: none; overflow: hidden; text-overflow: ellipsis; display: block;">{{ user.linkedin_url.replace('https://www.linkedin.com/in/', '') }}</a>
+                        {% else %}
+                        <span style="font-size: 0.9rem; font-weight: 700; color: #ffffff;">—</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="background: rgba(10, 15, 29, 0.8); border: 1.5px solid rgba(0, 255, 255, 0.15); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; min-height: 72px; width: 100%;">
+                    <div style="background: rgba(6, 182, 212, 0.15) !important; color: #06b6d4 !important; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;"><i class="bi bi-cpu"></i></div>
+                    <div>
+                        <div style="font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Skills</div>
+                        <div class="d-flex flex-wrap gap-1 mt-1">
+                             {% if user.skills %}
+                                {% for skill in user.skills.split(',') %}
+                                <a href="https://www.google.com/search?q={{ skill.strip()|urlencode }}" target="_blank" style="background: rgba(0, 255, 255, 0.12); border: 1px solid rgba(0, 255, 255, 0.3); color: #00ffff; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(0, 255, 255, 0.25)'" onmouseout="this.style.background='rgba(0, 255, 255, 0.12)'">{{ skill.strip() }}</a>
+                                {% endfor %}
+                            {% else %}
+                                <span style="font-size: 0.9rem; font-weight: 700; color: #ffffff;">—</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Registration Timestamp details inside card bottom -->
+        <div class="mt-4 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.78rem; font-weight: 600; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+            <i class="bi bi-calendar-event"></i> REGISTERED ON <span style="color: #00ffff;">{{ user.registered_at.strftime('%d %b %Y, %I:%M %p')|upper }}</span>
+        </div>
+    </div>
+
+    <!-- Assessment History -->
+    <div class="info-section">
+        <div class="section-title"><i class="bi bi-clipboard2-data-fill"></i> Assessment History</div>
+        {% if interviews %}
+        <div class="table-responsive">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Score</th>
+                        <th>Recommendation</th>
+                        <th>Date &amp; Time</th>
+                        <th>Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in interviews %}
+                    <tr onclick="window.location='/admin/interview/{{ i.id }}'" style="cursor: pointer;">
+                        <td>
+                            <span style="font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;">{{ i.score }}</span>
+                            <span style="font-size:0.8rem;color:var(--text-2);">/10</span>
+                        </td>
+                        <td>
+                            {% if i.is_terminated or (i.status and "Terminated" in i.status) %}
+                            <span class="verdict-pill rejected" style="background: rgba(239, 68, 68, 0.2) !important; color: #f87171 !important; border: 1px solid rgba(239, 68, 68, 0.4) !important;"><i class="bi bi-shield-slash-fill"></i> Terminated (Breach)</span>
+                            {% elif i.status in ["Selected", "PASS"] or (i.status and "WELL DONE" in i.status) %}
+                            <span class="verdict-pill selected"><i class="bi bi-check-circle-fill"></i> Recommended</span>
+                            {% else %}
+                            <span class="verdict-pill rejected"><i class="bi bi-x-circle-fill"></i> Not Recommended</span>
+                            {% endif %}
+                        </td>
+                        <td style="color:var(--text-2);font-size:0.84rem;">{{ i.interview_datetime.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td style="max-width:280px;font-size:0.84rem;color:var(--text-2);line-height:1.5;">{{ i.summary[:180] }}{% if i.summary|length > 180 %}…{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="bi bi-clipboard2-x"></i>
+            No placement assessments recorded yet.
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- User Resume Modal -->
+{% if user %}
+<div class="modal fade" id="userResumeModal" tabindex="-1" aria-labelledby="userResumeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" style="background:#08122a;border:1.5px solid #334155;border-radius:18px;">
+      <div class="modal-header border-0 p-4 pb-2 d-flex align-items-center justify-content-between">
+        <h5 class="modal-title fw-bold" id="userResumeModalLabel" style="font-family:'Outfit',sans-serif;color:#ffffff;">
+          <i class="bi bi-file-earmark-person-fill me-2" style="color:#00ffff;"></i>Candidate Resume — {{ user.full_name | upper }}
+        </h5>
+        <div class="d-flex align-items-center gap-2">
+          {% if user.resume_filename %}
+          <a href="/uploads/resumes/{{ user.resume_filename }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-semibold">
+            <i class="bi bi-box-arrow-up-right me-1"></i> Open Original File
+          </a>
+          {% endif %}
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body p-4 pt-2">
+        {% if user.resume_filename %}
+          {% set ext = user.resume_filename.rsplit('.', 1)[1].lower() %}
+          {% if ext in ['png', 'jpg', 'jpeg'] %}
+            <!-- Image resume view -->
+            <div style="text-align:center;background:#0b1633;border:1px solid #334155;border-radius:12px;padding:16px;max-height:70vh;overflow-y:auto;">
+              <img src="/uploads/resumes/{{ user.resume_filename }}" alt="Candidate Resume" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+            </div>
+          {% elif ext == 'pdf' %}
+            <!-- PDF resume view -->
+            <div style="background:#0b1633;border:1px solid #334155;border-radius:12px;overflow:hidden;height:75vh;">
+              <object data="/uploads/resumes/{{ user.resume_filename }}" type="application/pdf" style="width:100%;height:100%;">
+                <iframe src="/uploads/resumes/{{ user.resume_filename }}" style="width:100%;height:100%;border:none;">
+                  <p>Your browser does not support inline PDFs. <a href="/uploads/resumes/{{ user.resume_filename }}" target="_blank" style="color:#00ffff;">Click here to view the PDF file.</a></p>
+                </iframe>
+              </object>
+            </div>
+          {% else %}
+            <!-- Other document types -->
+            <div style="background:#0b1633;border:1px solid #334155;border-radius:12px;padding:24px;text-align:center;">
+              <i class="bi bi-file-earmark-word-fill" style="font-size:3rem;color:#00ffff;"></i>
+              <h6 class="fw-bold mt-2" style="color:#ffffff;">Original File: {{ user.resume_filename }}</h6>
+              <a href="/uploads/resumes/{{ user.resume_filename }}" download class="btn btn-primary rounded-pill px-4 mt-2 fw-bold" style="background:#00ffff;color:#020510;border:none;">
+                <i class="bi bi-download me-1"></i> Download File
+              </a>
+            </div>
+            {% if user.resume_text %}
+            <div style="background:#0b1633;border:1px solid #334155;border-radius:12px;padding:20px;margin-top:16px;font-family:'Inter',sans-serif;font-size:0.9rem;line-height:1.7;color:#cbd5e1;white-space:pre-wrap;max-height:40vh;overflow-y:auto;">{{ user.resume_text }}</div>
+            {% endif %}
+          {% endif %}
+        {% elif user.resume_text %}
+          <div style="background:#0b1633;border:1px solid #334155;border-radius:12px;padding:20px;font-family:'Inter',sans-serif;font-size:0.9rem;line-height:1.7;color:#cbd5e1;white-space:pre-wrap;max-height:60vh;overflow-y:auto;">{{ user.resume_text }}</div>
+        {% else %}
+          <div style="background:#0b1633;border:1px dashed #334155;border-radius:12px;padding:40px 20px;text-align:center;">
+            <i class="bi bi-file-earmark-x" style="font-size:2.5rem;color:#94a3b8;display:block;margin-bottom:10px;"></i>
+            <h6 class="fw-bold" style="color:#ffffff;">No Resume Available</h6>
+            <p style="font-size:0.85rem;color:#94a3b8;margin:0;">This candidate has not uploaded a resume document yet.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>

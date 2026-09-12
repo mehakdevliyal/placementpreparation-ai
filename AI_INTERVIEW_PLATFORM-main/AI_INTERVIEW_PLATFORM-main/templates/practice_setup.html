@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <title>Practice Mode Setup - AI Assessment Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script>
+    (function() {
+        document.documentElement.classList.add('dark-theme');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+    })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* â”€â”€ Design Tokens â”€â”€ */
+        :root {
+            --page-bg:          #f0f4ff;
+            --page-glow:        rgba(59, 130, 246, 0.07);
+            --card-bg:          #ffffff;
+            --card-border:      rgba(0, 0, 0, 0.07);
+            --text-main:        #0f172a;
+            --text-muted:       #475569;
+            --topbar-border:    rgba(0, 0, 0, 0.08);
+            --back-bg:          #ffffff;
+            --back-border:      rgba(0, 0, 0, 0.10);
+            --back-color:       #475569;
+            --back-hover-bg:    #f1f5f9;
+            --back-hover-color: #0f172a;
+            --highlights-bg:    rgba(241, 245, 255, 0.8);
+            --highlights-border: rgba(0, 0, 0, 0.07);
+            --highlight-color:  #475569;
+            --ph-divider-bg:    rgba(0, 0, 0, 0.08);
+            --settings-border:  rgba(0, 0, 0, 0.07);
+        }
+
+        html.dark-theme {
+            --page-bg:          #040914;
+            --page-glow:        rgba(0, 255, 255, 0.06);
+            --card-bg:          rgba(10, 15, 29, 0.65);
+            --card-border:      rgba(0, 255, 255, 0.18);
+            --text-main:        #ffffff;
+            --text-muted:       #8a9db8;
+            --topbar-border:    rgba(0, 255, 255, 0.18);
+            --back-bg:          rgba(0, 255, 255, 0.05);
+            --back-border:      rgba(0, 255, 255, 0.18);
+            --back-color:       #8a9db8;
+            --back-hover-bg:    rgba(0, 255, 255, 0.15);
+            --back-hover-color: #ffffff;
+            --highlights-bg:    rgba(10, 15, 29, 0.65);
+            --highlights-border: rgba(0, 255, 255, 0.18);
+            --highlight-color:  #cbd5e1;
+            --ph-divider-bg:    rgba(0, 255, 255, 0.18);
+            --settings-border:  rgba(0, 255, 255, 0.18);
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
+            background: var(--page-bg) !important;
+            background-image: none !important;
+        }
+
+        html.dark-theme body {
+            background: #020510 !important;
+            background-image: none !important;
+        }
+
+        /* ═══════════════════════════════════════════
+           GOATED BACKGROUND — Animated Aurora System
+        ═══════════════════════════════════════════ */
+        .db-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            display: none;
+        }
+        html.dark-theme .db-bg {
+            display: block;
+        }
+
+        .db-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0, 150, 255, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100, 0, 255, 0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0, 255, 220, 0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0, 80, 255, 0.12) 0%, transparent 50%),
+                linear-gradient(160deg, #02060f 0%, #010416 30%, #020820 60%, #010512 100__);
+        }
+
+        .db-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            animation: orbDrift 18s ease-in-out infinite;
+        }
+        .db-orb-1 {
+            width: 520px; height: 520px;
+            top: -120px; left: -100px;
+            background: radial-gradient(circle, rgba(0, 120, 255, 0.30) 0%, transparent 70%);
+            animation-delay: 0s; animation-duration: 20s;
+        }
+        .db-orb-2 {
+            width: 400px; height: 400px;
+            top: 10%; right: -80px;
+            background: radial-gradient(circle, rgba(120, 0, 255, 0.22) 0%, transparent 70%);
+            animation-delay: -7s; animation-duration: 24s;
+        }
+        .db-orb-3 {
+            width: 480px; height: 480px;
+            bottom: -80px; left: 30%;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.18) 0%, transparent 70%);
+            animation-delay: -13s; animation-duration: 22s;
+        }
+        .db-orb-4 {
+            width: 300px; height: 300px;
+            top: 45%; right: 25%;
+            background: radial-gradient(circle, rgba(60, 0, 180, 0.16) 0%, transparent 70%);
+            animation-delay: -4s; animation-duration: 19s;
+        }
+        .db-orb-5 {
+            width: 350px; height: 350px;
+            bottom: 10%; right: -50px;
+            background: radial-gradient(circle, rgba(0, 255, 180, 0.12) 0%, transparent 70%);
+            animation-delay: -9s; animation-duration: 26s;
+        }
+
+        @keyframes orbDrift {
+            0%   { opacity: 0.6; transform: translate(0, 0) scale(1); }
+            25%  { opacity: 0.8; transform: translate(30px, -20px) scale(1.05); }
+            50%  { opacity: 0.55; transform: translate(-20px, 30px) scale(0.97); }
+            75%  { opacity: 0.75; transform: translate(15px, 10px) scale(1.03); }
+            100% { opacity: 0.6; transform: translate(0, 0) scale(1); }
+        }
+
+        .db-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 200, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 200, 255, 0.035) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+        }
+
+        .db-particles {
+            position: absolute;
+            inset: 0;
+        }
+        .db-star {
+            position: absolute;
+            border-radius: 50%;
+            background: #ffffff;
+            animation: starTwinkle linear infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.6); }
+        }
+
+        .db-topbar-glow {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 200, 255, 0.7) 30%, rgba(120, 0, 255, 0.7) 70%, transparent 100%);
+            animation: topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Glass Cards overriding */
+        html.dark-theme .practice-card,
+        html.dark-theme .practice-highlights,
+        html.dark-theme .btn-back {
+            background: rgba(8, 14, 30, 0.75) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-color: rgba(0, 255, 255, 0.14) !important;
+        }
+
+        html.dark-theme .btn-back:hover {
+            background: #00ffff !important;
+            color: #020510 !important;
+            border-color: #00ffff !important;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--page-bg); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.2); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ffff; }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        
+
+        .practice-card {
+            border: 1px solid var(--card-border) !important;
+            border-radius: 16px !important;
+            background: var(--card-bg) !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.25);
+            border-color: rgba(0, 255, 255, 0.4) !important;
+        }
+
+        .practice-icon {
+            font-size: 1.9rem;
+            margin-bottom: 12px;
+        }
+
+        .viva-theme   { color: #10b981; }
+        .lang-theme   { color: #8b5cf6; }
+        .debate-theme { color: #ef4444; }
+        .convo-theme  { color: #0ea5e9; }
+
+        html.dark-theme .viva-theme   { color: #34d399; }
+        html.dark-theme .lang-theme   { color: #a78bfa; }
+        html.dark-theme .debate-theme { color: #f87171; }
+        html.dark-theme .convo-theme  { color: #38bdf8; }
+
+        .selected-card {
+            border: 2px solid #00ffff !important;
+            background-color: rgba(0, 255, 255, 0.08) !important;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.25);
+        }
+
+        html.dark-theme .selected-card {
+            background-color: rgba(0, 255, 255, 0.15) !important;
+            border-color: #00ffff !important;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.35);
+        }
+
+        .practice-highlights {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            background: var(--highlights-bg);
+            border: 1px solid var(--highlights-border);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            transition: background-color 0.25s ease;
+        }
+
+        .practice-highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--highlight-color);
+            white-space: nowrap;
+        }
+
+        .ph-divider {
+            width: 1px; height: 18px;
+            background: var(--ph-divider-bg);
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50%       { transform: scale(1.5); opacity: 0.55; }
+        }
+
+        .pulse-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse-dot 1.8s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .topbar {
+            border-bottom: 1px solid var(--topbar-border);
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn-global {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--back-color);
+            background: var(--back-bg);
+            border: 1px solid var(--back-border);
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn-global:hover {
+            color: var(--back-hover-color);
+            background: var(--back-hover-bg);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        html.dark-theme .back-btn-global:hover {
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+
+        .card.p-3.mt-3 {
+            background: var(--card-bg) !important;
+            border: 1px solid var(--settings-border) !important;
+            border-radius: 16px !important;
+        }
+    
+        /* â”€â”€ Elite Tech Code Blocks â”€â”€ */
+        code, pre, .code-block, pre code {
+            background: #000000 !important;
+            color: #00ff9d !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+        }
+        
+        /* â”€â”€ Elite Tech Code Blocks â”€â”€ */
+        code, pre, .code-block, pre code {
+            background: #000000 !important;
+            color: #00ff9d !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+        }
+        
+        /* â”€â”€ Elite Tech Code Blocks â”€â”€ */
+        code, pre, .code-block, pre code {
+            background: #000000 !important;
+            color: #00ff9d !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+        }
+        </style>
+</head>
+<body>
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+    {% include 'navbar.html' %}
+
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+
+                <!-- Page header -->
+                <div class="topbar mb-3">
+                    <div>
+                        <h4 class="mb-0"><i class="bi bi-mortarboard"></i> Practice Mode</h4>
+                        <p class="mb-0 text-muted" style="font-size:0.83rem; margin-top:2px;">
+                            Sharpen your skills with informal, examiner-led feedback sessions.
+                        </p>
+                    </div>
+                    <a href="/dashboard" class="back-btn-global">
+                        <i class="bi bi-arrow-left"></i> BACK
+                    </a>
+                </div>
+
+                <form method="POST" action="/practice-start" id="practiceForm">
+                    <input type="hidden" name="mode" id="selectedMode" value="viva">
+
+                    <!-- Mode cards -->
+                    <div class="row g-3">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card practice-card p-3 h-100 selected-card" id="card-viva" onclick="selectMode('viva')">
+                                <div class="practice-icon viva-theme"><i class="bi bi-person-workspace"></i></div>
+                                <h5 class="mb-1" style="font-size:0.95rem;">Academic Viva Voce</h5>
+                                <p class="small text-muted mb-0" style="font-size:0.75rem;">Simulates an oral university exam. Practises technical questions and definitions.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card practice-card p-3 h-100" id="card-lang" onclick="selectMode('lang')">
+                                <div class="practice-icon lang-theme"><i class="bi bi-translate"></i></div>
+                                <h5 class="mb-1" style="font-size:0.95rem;">FluentFlow</h5>
+                                <p class="small text-muted mb-0" style="font-size:0.75rem;">Improve spoken fluency in any language. Practice everyday conversation.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card practice-card p-3 h-100" id="card-debate" onclick="selectMode('debate')">
+                                <div class="practice-icon debate-theme"><i class="bi bi-lightning-charge"></i></div>
+                                <h5 class="mb-1" style="font-size:0.95rem;">Debate with AI</h5>
+                                <p class="small text-muted mb-0" style="font-size:0.75rem;">Sharp counter-arguments and language-sensitive debates limited to 2 lines.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card practice-card p-3 h-100" id="card-convo" onclick="selectMode('convo')">
+                                <div class="practice-icon convo-theme"><i class="bi bi-chat-left-heart"></i></div>
+                                <h5 class="mb-1" style="font-size:0.95rem;">Healthy Convo</h5>
+                                <p class="small text-muted mb-0" style="font-size:0.75rem;">Engage in warm, meaningful, and healthy discussions with moderate friendliness.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings panel -->
+                    <div class="card p-3 mt-3" style="border-radius:12px; border:1px solid var(--border-light);">
+
+                        <div id="viva-details">
+                            <h6 class="mb-2 viva-theme"><i class="bi bi-sliders"></i> Viva Voce Settings</h6>
+                            <label class="form-label fw-semibold mb-1" style="font-size:0.88rem;">Target Topic / Course Subject</label>
+                            <input type="text" name="viva_subject" class="form-control" placeholder="e.g., Data Structures, Classical Mechanics, Organic Chemistry" required>
+                            <div class="form-text mt-1">The AI examiner will focus 100% of the viva questions on this specific course subject.</div>
+                        </div>
+
+                        <div id="lang-details" style="display:none;">
+                            <h6 class="mb-2 lang-theme"><i class="bi bi-sliders"></i> FluentFlow Settings</h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold mb-1" style="font-size:0.88rem;">Language to Practise</label>
+                                    <input type="text" name="lang_target" id="langTargetInput" class="form-control" placeholder="e.g., French, Spanish, Hindi, Japanese">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold mb-1" style="font-size:0.88rem;">Focus Category</label>
+                                    <select name="lang_focus" class="form-select">
+                                        <option value="conversation">Conversational Fluency</option>
+                                        <option value="grammar">Grammar &amp; Sentence Correction</option>
+                                        <option value="fundamentals">Fundamental Language Q&amp;A</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold mb-1" style="font-size:0.88rem;">Proficiency Level</label>
+                                    <select name="lang_level" class="form-select">
+                                        <option value="beginner">Beginner (A1-A2)</option>
+                                        <option value="intermediate" selected>Intermediate (B1-B2)</option>
+                                        <option value="advanced">Advanced (C1-C2)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-text mt-2">The AI will conduct the session based on these preferences in a language-sensitive manner.</div>
+                        </div>
+
+                        <div id="debate-details" style="display:none;">
+                            <h6 class="mb-2 debate-theme"><i class="bi bi-sliders"></i> Debate Settings</h6>
+                            <div class="form-text mt-1">No upfront settings required! The AI will ask you for your chosen debate topic and stance once the session starts.</div>
+                        </div>
+
+                        <div id="convo-details" style="display:none;">
+                            <h6 class="mb-2 convo-theme"><i class="bi bi-sliders"></i> Healthy Conversation Settings</h6>
+                            <div class="form-text mt-1">No upfront settings required! The AI will ask you what you would like to discuss once the session starts.</div>
+                        </div>
+
+                    </div>
+
+                    <!-- Practice highlights strip -->
+                    <div class="practice-highlights">
+                        <div class="practice-highlight-item">
+                            <span class="pulse-dot"></span>
+                            Unlimited Questions
+                        </div>
+                        <div class="ph-divider"></div>
+                        <div class="practice-highlight-item">
+                            <i class="bi bi-shield-check" style="color:#17b978;"></i>
+                            No pressure, no timer
+                        </div>
+                        <div class="ph-divider"></div>
+                        <div class="practice-highlight-item">
+                            <i class="bi bi-check2-circle" style="color:#4e73df;"></i>
+                            Finish when you're ready
+                        </div>
+                        <div class="ph-divider"></div>
+                        <div class="practice-highlight-item">
+                            <i class="bi bi-bar-chart-line" style="color:#8e44ad;"></i>
+                            AI report at the end
+                        </div>
+                    </div>
+
+                    <!-- Launch button -->
+                    <button type="submit" class="btn w-100 text-white mt-3 py-3"
+                        style="border-radius:12px; background:linear-gradient(135deg,var(--primary,#00ffff),var(--primary-hover,#0284c7)); font-size:1.05rem; font-weight:700; box-shadow:0 4px 14px rgba(0,255,255,0.25); border:none;">
+                        Launch Practice Session <i class="bi bi-rocket-takeoff ms-1"></i>
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        sessionStorage.removeItem('interview_proctor_strikes');
+        function selectMode(mode) {
+            document.getElementById('selectedMode').value = mode;
+
+            document.querySelectorAll('.practice-card').forEach(c => c.classList.remove('selected-card'));
+            document.getElementById('card-' + mode).classList.add('selected-card');
+
+            document.getElementById('viva-details').style.display  = (mode === 'viva')   ? 'block' : 'none';
+            document.getElementById('lang-details').style.display  = (mode === 'lang')   ? 'block' : 'none';
+            document.getElementById('debate-details').style.display = (mode === 'debate') ? 'block' : 'none';
+            document.getElementById('convo-details').style.display = (mode === 'convo')  ? 'block' : 'none';
+
+            const vivaInput  = document.querySelector('input[name="viva_subject"]');
+            const langInput  = document.getElementById('langTargetInput');
+
+            vivaInput.removeAttribute('required');
+            langInput.removeAttribute('required');
+
+            if (mode === 'viva')  vivaInput.setAttribute('required','required');
+            if (mode === 'lang')  langInput.setAttribute('required','required');
+    </script>
+
+<script>
+/* ── Practice Setup background particle spawner ── */
+(function() {
+    var container = document.getElementById('dbParticles');
+    if (!container) return;
+    var count = 60;
+    for (var i = 0; i < count; i++) {
+        var star = document.createElement('div');
+        star.className = 'db-star';
+        var size = Math.random() * 2 + 1;
+        star.style.cssText = [
+            'width:' + size + 'px',
+            'height:' + size + 'px',
+            'left:' + (Math.random() * 100) + '%',
+            'top:' + (Math.random() * 100) + '%',
+            'animation-duration:' + (Math.random() * 4 + 2) + 's',
+            'animation-delay:' + (Math.random() * 6) + 's'
+        ].join(';');
+        container.appendChild(star);
+    }
+})();
+</script>
+
+</body>
+</html>

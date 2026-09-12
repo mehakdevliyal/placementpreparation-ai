@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy &amp; Terms of Use — AI Interview Platform</title>
+    <meta name="description" content="Privacy Policy and Terms of Use for the AI Interview Platform. Learn how your data is collected, stored, and used.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* ── Dark glassmorphic layout ── */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #cbd5e1;
+            min-height: 100vh;
+        }
+
+        /* ── Nav ── */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 48px;
+            background: rgba(4, 9, 20, 0.92);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.18);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00d4ff, #0066cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #00ffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            background: rgba(0, 255, 255, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .nav-back:hover {
+            color: #ffffff;
+            border-color: rgba(0, 255, 255, 0.6);
+            background: rgba(0, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        /* ── Page layout ── */
+        .page-wrap {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 56px 24px 80px;
+        }
+
+        /* ── Header ── */
+        .doc-header {
+            margin-bottom: 48px;
+        }
+
+        .doc-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(0, 255, 255, 0.08);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .doc-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+        }
+
+        .doc-meta {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .doc-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ── Table of contents (Glassmorphic) ── */
+        .toc-card {
+            background: rgba(8, 14, 32, 0.55);
+            border: 1px solid rgba(0, 255, 255, 0.18);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .toc-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 14px;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-left: 0;
+        }
+
+        .toc-list li {
+            list-style: none;
+        }
+
+        .toc-list a {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #00ffff;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            background: rgba(0, 255, 255, 0.08);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .toc-list a:hover {
+            background: rgba(0, 255, 255, 0.18);
+            color: #ffffff;
+            border-color: rgba(0, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* ── Section ── */
+        .doc-section {
+            margin-bottom: 44px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #00ffff;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .section-rule {
+            width: 36px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #0066cc);
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .section-body {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+        }
+
+        .section-body p {
+            margin-bottom: 14px;
+        }
+
+        .section-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-body ul {
+            padding-left: 0;
+            list-style: none;
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section-body ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.93rem;
+        }
+
+        .section-body ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00ffff;
+            flex-shrink: 0;
+            margin-top: 9px;
+        }
+
+        /* ── Highlight info box (Glassmorphic) ── */
+        .info-box {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.18);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 20px 0;
+        }
+
+        .info-box i {
+            font-size: 1.15rem;
+            color: #00ffff;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .info-box-text {
+            font-size: 0.88rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+        }
+
+        /* ── Divider ── */
+        .section-divider {
+            border: none;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+            margin: 44px 0;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: rgba(4, 9, 20, 0.85);
+            border-top: 1px solid rgba(0, 255, 255, 0.12);
+            padding: 32px 48px;
+        }
+
+        .footer-inner {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-link {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-link:hover {
+            color: #00ffff;
+        }
+
+        @media (max-width: 640px) {
+            .top-nav { padding: 16px 20px; }
+            .page-wrap { padding: 36px 20px 60px; }
+            .doc-title { font-size: 1.8rem; }
+            footer { padding: 24px 20px; }
+            .footer-inner { flex-direction: column; align-items: flex-start; }
+        }
+/* ══ GOATED BG OVERRIDES ══ */
+html.dark-theme body {
+    background: #020510 !important;
+    background-image: none !important;
+}
+.db-bg {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; overflow: hidden; display: none;
+}
+html.dark-theme .db-bg { display: block; }
+.db-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0,150,255,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100,0,255,0.14) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0,255,220,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0,80,255,0.12) 0%, transparent 50%),
+        linear-gradient(160deg,#02060f 0%,#010416 30%,#020820 60%,#010512 100%);
+}
+.db-orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0; animation:orbDrift 18s ease-in-out infinite; }
+.db-orb-1 { width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,rgba(0,120,255,0.30) 0%,transparent 70%);animation-delay:0s;animation-duration:20s; }
+.db-orb-2 { width:400px;height:400px;top:10%;right:-80px;background:radial-gradient(circle,rgba(120,0,255,0.22) 0%,transparent 70%);animation-delay:-7s;animation-duration:24s; }
+.db-orb-3 { width:480px;height:480px;bottom:-80px;left:30%;background:radial-gradient(circle,rgba(0,200,255,0.18) 0%,transparent 70%);animation-delay:-13s;animation-duration:22s; }
+.db-orb-4 { width:300px;height:300px;top:45%;right:25%;background:radial-gradient(circle,rgba(60,0,180,0.16) 0%,transparent 70%);animation-delay:-4s;animation-duration:19s; }
+.db-orb-5 { width:350px;height:350px;bottom:10%;right:-50px;background:radial-gradient(circle,rgba(0,255,180,0.12) 0%,transparent 70%);animation-delay:-9s;animation-duration:26s; }
+@keyframes orbDrift {
+    0%   { opacity:0.6; transform:translate(0,0) scale(1); }
+    25%  { opacity:0.8; transform:translate(30px,-20px) scale(1.05); }
+    50%  { opacity:0.55; transform:translate(-20px,30px) scale(0.97); }
+    75%  { opacity:0.75; transform:translate(15px,10px) scale(1.03); }
+    100% { opacity:0.6; transform:translate(0,0) scale(1); }
+}
+.db-grid {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(0,200,255,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,255,0.035) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+}
+.db-particles { position:absolute; inset:0; }
+.db-star { position:absolute; border-radius:50%; background:#ffffff; animation:starTwinkle linear infinite; }
+@keyframes starTwinkle {
+    0%,100% { opacity:0.05; transform:scale(1); }
+    50%      { opacity:0.55; transform:scale(1.6); }
+}
+.db-topbar-glow {
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent 0%,rgba(0,200,255,0.7) 30%,rgba(120,0,255,0.7) 70%,transparent 100%);
+    animation:topbarGlowPulse 4s ease-in-out infinite;
+}
+@keyframes topbarGlowPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(0,255,255,0.2);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:#00ffff;}
+    </style>
+</head>
+<body>
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+<nav class="top-nav">
+    <a class="nav-brand" href="/">
+        <div class="nav-icon"><i class="bi bi-cpu-fill"></i></div>
+        AI Interview Platform
+    </a>
+    <a href="/" class="nav-back">
+        <i class="bi bi-arrow-left"></i> BACK
+    </a>
+</nav>
+
+<div class="page-wrap">
+
+    <div class="doc-header">
+        <div class="doc-tag">
+            <i class="bi bi-shield-lock-fill"></i>
+            Legal Document
+        </div>
+        <h1 class="doc-title">Privacy Policy &amp; Terms of Use</h1>
+        <div class="doc-meta">
+            <span class="doc-meta-item"><i class="bi bi-calendar3"></i> Effective: January 1, 2026</span>
+            <span class="doc-meta-item"><i class="bi bi-arrow-repeat"></i> Last updated: August 2026</span>
+            <span class="doc-meta-item"><i class="bi bi-geo-alt"></i> Governing jurisdiction: India</span>
+        </div>
+    </div>
+
+    <!-- Table of contents -->
+    <div class="toc-card">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list">
+            <li><a href="#overview"><i class="bi bi-dot"></i>Overview</a></li>
+            <li><a href="#data-collected"><i class="bi bi-dot"></i>Data We Collect</a></li>
+            <li><a href="#ai-processing"><i class="bi bi-dot"></i>AI &amp; Data Processing</a></li>
+            <li><a href="#data-usage"><i class="bi bi-dot"></i>How We Use Your Data</a></li>
+            <li><a href="#data-storage"><i class="bi bi-dot"></i>Storage &amp; Security</a></li>
+            <li><a href="#cookies"><i class="bi bi-dot"></i>Cookies &amp; Sessions</a></li>
+            <li><a href="#user-rights"><i class="bi bi-dot"></i>Your Rights</a></li>
+            <li><a href="#third-party"><i class="bi bi-dot"></i>Third-Party Services</a></li>
+            <li><a href="#terms"><i class="bi bi-dot"></i>Terms of Use</a></li>
+            <li><a href="#contact"><i class="bi bi-dot"></i>Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="doc-section" id="overview">
+        <div class="section-label"><i class="bi bi-info-circle-fill"></i> Section 01</div>
+        <div class="section-title">Overview</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>This Privacy Policy describes how AI Interview Platform ("we", "us", or "our") collects, uses, and safeguards information provided by users ("you") while using our AI-powered mock interview and candidate assessment service.</p>
+            <p>By creating an account or using any feature of this platform, you acknowledge that you have read and understood this policy and agree to its terms. If you do not agree, you should discontinue use of the platform immediately.</p>
+            <div class="info-box">
+                <i class="bi bi-shield-check-fill"></i>
+                <div class="info-box-text">We do not sell, rent, or trade your personal information to any third party under any circumstances. Your data is used solely to operate and improve this platform.</div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 2 -->
+    <div class="doc-section" id="data-collected">
+        <div class="section-label"><i class="bi bi-database-fill"></i> Section 02</div>
+        <div class="section-title">Data We Collect</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>We collect the minimum data necessary to operate the platform. This includes:</p>
+            <ul>
+                <li><strong>Account information:</strong> Your name, email address, and hashed password at registration. If you sign in via Google OAuth, your Google name, email, and profile picture are received from Google.</li>
+                <li><strong>Resume uploads:</strong> PDF or document files you optionally upload for AI-based resume analysis. Files are stored securely and used only for analysis during your session.</li>
+                <li><strong>Interview responses:</strong> Text answers you provide during interview sessions. These are sent to the Gemini AI API for evaluation and stored as part of your assessment record.</li>
+                <li><strong>Assessment results:</strong> Your score, performance tier, domain, evaluation summary, and timestamp are stored in our database and linked to your account.</li>
+                <li><strong>Session data:</strong> Temporary session identifiers, interview progress, and preferences stored server-side during your session.</li>
+            </ul>
+            <p>We do not collect payment information, government identifiers, or sensitive personal data beyond what is listed above.</p>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 3 -->
+    <div class="doc-section" id="ai-processing">
+        <div class="section-label"><i class="bi bi-cpu-fill"></i> Section 03</div>
+        <div class="section-title">AI &amp; Data Processing</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>This platform uses <strong>Google Gemini AI</strong> to generate interview questions, evaluate your responses, and produce assessment summaries. Your interview conversation and resume content are transmitted to Google's servers for this purpose.</p>
+            <div class="info-box">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <div class="info-box-text">By using this platform, you consent to your interview responses and resume being processed by Google Gemini AI. Please refer to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: #00ffff;">Google's Privacy Policy</a> for details on how Google handles API data.</div>
+            </div>
+            <p>AI-generated evaluations are automated. They are not reviewed by human assessors and are intended for practice and self-improvement purposes only. Scores and feedback are not official placement decisions.</p>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 4 -->
+    <div class="doc-section" id="data-usage">
+        <div class="section-label"><i class="bi bi-bar-chart-fill"></i> Section 04</div>
+        <div class="section-title">How We Use Your Data</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>We use the data we collect for the following purposes only:</p>
+            <ul>
+                <li>To authenticate your identity and manage your account securely.</li>
+                <li>To conduct AI-powered mock interview sessions and generate personalised evaluation reports.</li>
+                <li>To display your assessment history, score trends, and performance metrics on your dashboard.</li>
+                <li>To generate downloadable or printable PDF assessment reports.</li>
+                <li>To improve platform reliability, fix errors, and enhance features.</li>
+                <li>To send account-related communications such as password reset OTPs (if applicable).</li>
+            </ul>
+            <p>We do not use your data for advertising, profiling, or any purpose outside the direct operation of this platform.</p>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 5 -->
+    <div class="doc-section" id="data-storage">
+        <div class="section-label"><i class="bi bi-lock-fill"></i> Section 05</div>
+        <div class="section-title">Storage &amp; Security</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>Your data is stored in a secured relational database. Passwords are <strong>never stored in plain text</strong> — they are hashed using industry-standard Werkzeug hashing (PBKDF2/SHA256) before storage.</p>
+            <p>We implement the following security controls:</p>
+            <ul>
+                <li>HTTPS-only transmission in production environments (HSTS enforced).</li>
+                <li>HTTP security headers on all responses.</li>
+                <li>Session cookies are <code>HttpOnly</code> and <code>SameSite=Lax</code> to mitigate XSS and CSRF risks.</li>
+                <li>File uploads are validated by type and size (10MB maximum). Only permitted extensions are accepted.</li>
+                <li>Access to all authenticated routes requires a valid server-side session.</li>
+            </ul>
+            <p>Despite these measures, no internet-based system is completely immune to security risks. You are advised not to include highly sensitive personal information in your interview responses.</p>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 6 -->
+    <div class="doc-section" id="cookies">
+        <div class="section-label"><i class="bi bi-cookie"></i> Section 06</div>
+        <div class="section-title">Cookies &amp; Sessions</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>We use a minimal set of cookies essential for the operation of the platform:</p>
+            <ul>
+                <li><strong>Session cookie:</strong> A server-managed cookie that maintains your login state.</li>
+                <li><strong>Theme preference:</strong> A local preference key stored in your browser.</li>
+            </ul>
+            <p>We do not use tracking cookies, advertising cookies, or third-party analytics cookies.</p>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 7 -->
+    <div class="doc-section" id="user-rights">
+        <div class="section-label"><i class="bi bi-person-check-fill"></i> Section 07</div>
+        <div class="section-title">Your Rights</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>You have the following rights with respect to your personal data held on this platform:</p>
+            <ul>
+                <li><strong>Access:</strong> You may request a summary of the personal data we hold about you.</li>
+                <li><strong>Correction:</strong> You may update your profile information via the Edit Profile page.</li>
+                <li><strong>Deletion:</strong> You may request deletion of your account and all associated data.</li>
+                <li><strong>Portability:</strong> You may request an export of your assessment history.</li>
+            </ul>
+            <p>To exercise any of these rights, contact the administrator.</p>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 8 — Examination Integrity & Automated Proctoring -->
+    <div class="doc-section" id="proctoring">
+        <div class="section-label"><i class="bi bi-shield-lock-fill"></i> Section 08</div>
+        <div class="section-title">Examination Integrity &amp; Automated Proctoring Policy</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>To ensure fairness, authenticity, and strict adherence to placement evaluation standards, the platform employs an <strong>Automated Proctoring Security Layer</strong> during active examination sessions.</p>
+            <p><strong>Window Focus &amp; Tab-Switch Restrictions (2-Strike Policy):</strong></p>
+            <ul>
+                <li><strong>Continuous Session Focus:</strong> Candidates are required to maintain active window focus on the examination studio throughout the duration of the interview.</li>
+                <li><strong>Strike 1 (Warning):</strong> The first instance of tab switching, window minimization, or application focus loss triggers an immediate warning dialog reminding the candidate of anti-cheating regulations.</li>
+                <li><strong>Strike 2 (Immediate Termination):</strong> A second focus loss violation results in <strong>automatic session termination</strong>. The attempt is immediately recorded as <code>Terminated (Code of Conduct Breach)</code> with a score of 0/10.</li>
+            </ul>
+            <div class="info-box" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.1);">
+                <i class="bi bi-shield-exclamation" style="color: #f87171;"></i>
+                <div class="info-box-text" style="color: #fca5a5;">
+                    <strong>Audit Logging:</strong> All security violations and premature session terminations are permanently logged in administrative audit records and displayed on candidate performance reports.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 9 -->
+    <div class="doc-section" id="third-party">
+        <div class="section-label"><i class="bi bi-link-45deg"></i> Section 09</div>
+        <div class="section-title">Third-Party Services</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>This platform integrates with the following third-party services. Each governs its own data practices:</p>
+            <ul>
+                <li><strong>Google Gemini AI API:</strong> Used for question generation and response evaluation.</li>
+                <li><strong>Google OAuth 2.0:</strong> Optional sign-in method.</li>
+                <li><strong>Google Fonts:</strong> Typography assets.</li>
+                <li><strong>Bootstrap CDN:</strong> CSS and icon libraries.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 9 — Terms -->
+    <div class="doc-section" id="terms">
+        <div class="section-label"><i class="bi bi-file-text-fill"></i> Section 09</div>
+        <div class="section-title">Terms of Use</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>By accessing and using AI Interview Platform, you agree to the following terms:</p>
+            <ul>
+                <li>You must be at least 16 years of age to create an account and use this platform.</li>
+                <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+                <li>You agree not to attempt to reverse-engineer or disrupt the platform or its AI systems.</li>
+                <li>Assessment results are generated by an automated AI system and carry no guarantee of employment outcomes.</li>
+            </ul>
+            <div class="info-box">
+                <i class="bi bi-info-circle-fill"></i>
+                <div class="info-box-text">These terms are governed by the laws of India. Any disputes arising from use of this platform shall be subject to the jurisdiction of competent courts in India.</div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 10 -->
+    <div class="doc-section" id="contact">
+        <div class="section-label"><i class="bi bi-envelope-fill"></i> Section 10</div>
+        <div class="section-title">Contact</div>
+        <div class="section-rule"></div>
+        <div class="section-body">
+            <p>For any questions, data requests, or concerns regarding this Privacy Policy or Terms of Use, contact the platform administrator:</p>
+            <div class="info-box">
+                <i class="bi bi-envelope-at-fill"></i>
+                <div class="info-box-text">
+                    <strong>AI Interview Platform — Data Queries</strong><br>
+                    Email: <a href="aiinterviewplatform26@gmail.com" style="color: #00ffff;">admin@gmail.com</a><br>
+                    Response time: within 15 business days
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <span class="footer-copy">&copy; 2026 AI Assessment Lab &middot; All rights reserved.</span>
+        <div class="footer-links">
+            <a href="/" class="footer-link">Home</a>
+            <a href="/login" class="footer-link">Sign In</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>

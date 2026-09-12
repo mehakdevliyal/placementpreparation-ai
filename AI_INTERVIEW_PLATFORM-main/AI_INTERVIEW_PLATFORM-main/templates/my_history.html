@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <title>Assessment History - AI Interview Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your complete AI placement assessment history with score trends and performance insights.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script>
+    (function() {
+        document.documentElement.classList.add('dark-theme');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+    })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #020510;
+            --surface: #08122a;
+            --surface-card: #0b1633;
+            --border: #334155;
+            --border-highlight: rgba(0, 255, 255, 0.4);
+            --text-1: #ffffff;
+            --text-2: #94a3b8;
+            --brand: #00ffff;
+            --brand-glow: rgba(0, 255, 255, 0.35);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+            transition: background 0.25s ease, color 0.25s ease;
+            background: #020510 !important;
+            background-image: none !important;
+        }
+
+        /* ═══════════════════════════════════════════
+           ANIMATED AURORA BACKGROUND SYSTEM
+        ═══════════════════════════════════════════ */
+        .db-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .db-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0, 255, 255, 0.16) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(2, 132, 199, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0, 255, 220, 0.10) 0%, transparent 55%),
+                linear-gradient(160deg, #02060f 0%, #010416 30%, #020820 60%, #010512 100%);
+        }
+
+        .db-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: orbDrift 18s ease-in-out infinite;
+        }
+        .db-orb-1 {
+            width: 520px; height: 520px;
+            top: -120px; left: -100px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.22) 0%, transparent 70%);
+            animation-delay: 0s; animation-duration: 20s;
+        }
+        .db-orb-2 {
+            width: 400px; height: 400px;
+            top: 10%; right: -80px;
+            background: radial-gradient(circle, rgba(2, 132, 199, 0.20) 0%, transparent 70%);
+            animation-delay: -7s; animation-duration: 24s;
+        }
+        .db-orb-3 {
+            width: 480px; height: 480px;
+            bottom: -80px; left: 30%;
+            background: radial-gradient(circle, rgba(0, 220, 255, 0.16) 0%, transparent 70%);
+            animation-delay: -13s; animation-duration: 22s;
+        }
+        .db-orb-4 {
+            width: 300px; height: 300px;
+            top: 45%; right: 25%;
+            background: radial-gradient(circle, rgba(2, 132, 199, 0.16) 0%, transparent 70%);
+            animation-delay: -4s; animation-duration: 19s;
+        }
+        .db-orb-5 {
+            width: 350px; height: 350px;
+            bottom: 10%; right: -50px;
+            background: radial-gradient(circle, rgba(0, 255, 220, 0.12) 0%, transparent 70%);
+            animation-delay: -9s; animation-duration: 26s;
+        }
+
+        @keyframes orbDrift {
+            0%   { opacity: 0.55; transform: translate(0, 0) scale(1); }
+            33%  { opacity: 0.75; transform: translate(25px, -18px) scale(1.04); }
+            66%  { opacity: 0.50; transform: translate(-18px, 22px) scale(0.97); }
+            100% { opacity: 0.55; transform: translate(0, 0) scale(1); }
+        }
+
+        .db-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.035) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+        }
+
+        .db-particles {
+            position: absolute;
+            inset: 0;
+        }
+        .db-star {
+            position: absolute;
+            border-radius: 50%;
+            background: #ffffff;
+            animation: starTwinkle linear infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.6); }
+        }
+
+        .db-topbar-glow {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.8) 30%, rgba(2, 132, 199, 0.8) 70%, transparent 100%);
+            animation: topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Glass Cards & Elements */
+        .glass-card {
+            background: #08122a !important;
+            border: 1.5px solid #334155 !important;
+            border-radius: 20px;
+            padding: 32px 36px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            transition: border-color 0.25s ease, transform 0.25s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 255, 255, 0.4) !important;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: #ffffff;
+            margin: 0 0 4px;
+            letter-spacing: -0.01em;
+        }
+        .card-sub {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin: 0 0 24px;
+        }
+
+        /* ── Chart canvas wrapper ── */
+        .chart-wrap {
+            position: relative;
+            height: 170px;
+        }
+
+        /* ── Attempt list ── */
+        .attempts-section-label {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #00ffff;
+            margin-bottom: 16px;
+        }
+
+        .attempt-card {
+            background: #08122a !important;
+            border: 1.5px solid #334155 !important;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            cursor: default;
+        }
+        .attempt-card:hover {
+            transform: translateY(-2px);
+            border-color: #00ffff !important;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.15) !important;
+        }
+
+        .attempt-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .attempt-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #00ffff 0%, #0284c7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #020510;
+            font-size: 1.2rem;
+            font-weight: 900;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(0, 255, 255, 0.3);
+        }
+
+        .attempt-domain {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #ffffff;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .attempt-date {
+            font-size: 0.82rem;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .attempt-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: baseline;
+            gap: 3px;
+        }
+        .score-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.45rem;
+            color: #00ffff;
+        }
+        .score-denom {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        /* mini score bar */
+        .score-bar-wrap {
+            width: 70px;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 99px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+        }
+
+        .verdict-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+        .verdict-badge.pass {
+            background: rgba(16, 185, 129, 0.15) !important;
+            color: #34d399 !important;
+            border: 1.5px solid rgba(16, 185, 129, 0.4) !important;
+        }
+        .verdict-badge.fail {
+            background: rgba(239, 68, 68, 0.15) !important;
+            color: #f87171 !important;
+            border: 1.5px solid rgba(239, 68, 68, 0.4) !important;
+        }
+
+        .btn-view-report {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            background: rgba(0, 255, 255, 0.08);
+            border: 1.5px solid rgba(0, 255, 255, 0.4);
+            color: #00ffff !important;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.86rem;
+            text-decoration: none !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-view-report:hover {
+            background: #00ffff !important;
+            color: #020510 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 0 16px rgba(0, 255, 255, 0.5) !important;
+            text-decoration: none !important;
+        }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 64px 20px;
+        }
+        .empty-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: rgba(0, 255, 255, 0.08);
+            border: 1.5px solid rgba(0, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin: 0 auto 24px;
+        }
+        .empty-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .empty-sub {
+            font-size: 0.92rem;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .btn-begin {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00ffff 0%, #0284c7 100%);
+            color: #020510 !important;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 0.95rem;
+            text-decoration: none !important;
+            box-shadow: 0 4px 18px rgba(0, 255, 255, 0.35);
+            transition: all 0.2s ease;
+        }
+        .btn-begin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 26px rgba(0, 255, 255, 0.55);
+        }
+
+        @media (max-width: 600px) {
+            .glass-card { padding: 20px 18px; }
+            .attempt-card { padding: 16px 18px; }
+            .page-title { font-size: 1.55rem; }
+        }
+    </style>
+</head>
+<body>
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+{% include 'navbar.html' %}
+
+<div class="page-wrap">
+
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Assessment History</h1>
+            <p class="page-subtitle">Your placement evaluation records and score progression</p>
+        </div>
+        <a href="/dashboard" class="back-btn-global">
+            <i class="bi bi-arrow-left"></i> BACK
+        </a>
+    </div>
+
+    {% if attempts %}
+
+    <!-- Score Trend Chart -->
+    <div class="glass-card">
+        <div class="card-title">Score Trend</div>
+        <p class="card-sub">Overall score across all assessment sessions</p>
+        <div class="chart-wrap">
+            <canvas id="scoreChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Attempt Cards -->
+    <div class="attempts-section-label">Assessment Records - {{ attempts | length }} total</div>
+
+    {% for a in attempts %}
+    <div class="attempt-card">
+        <div class="attempt-left">
+            <div class="attempt-icon">
+                <i class="bi bi-briefcase-fill"></i>
+            </div>
+            <div>
+                <p class="attempt-domain">{{ a.domain or 'General' }}</p>
+                <div class="attempt-date">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    {{ a.interview_datetime.strftime('%d %b %Y, %I:%M %p') }}
+                </div>
+            </div>
+        </div>
+
+        <div class="attempt-right">
+            <div>
+                <div class="score-display">
+                    <span class="score-num">{{ a.score | round(1) | string | replace('.0', '') }}</span>
+                    <span class="score-denom">/10</span>
+                </div>
+                <div class="score-bar-wrap">
+                    <div class="score-bar-fill" style="width:{{ ((a.score|float) / 10 * 100)|int }}%; background: {% if (a.score|float) >= 6 %}linear-gradient(90deg,#10b981,#06b6d4){% elif (a.score|float) >= 4 %}linear-gradient(90deg,#f59e0b,#d97706){% else %}linear-gradient(90deg,#ef4444,#dc2626){% endif %};"></div>
+                </div>
+            </div>
+
+            {% if a.is_terminated or (a.status and "Terminated" in a.status) %}
+            <span class="verdict-badge fail" style="background: rgba(239, 68, 68, 0.18) !important; color: #f87171 !important; border-color: rgba(239, 68, 68, 0.4) !important;">
+                <i class="bi bi-shield-slash-fill"></i> Terminated (Code of Conduct)
+            </span>
+            {% elif session.get('is_admin') %}
+                {% if a.status in ["Selected", "PASS"] or (a.status and "WELL DONE" in a.status) %}
+                <span class="verdict-badge pass">
+                    <i class="bi bi-check-circle-fill"></i> Recommended
+                </span>
+                {% else %}
+                <span class="verdict-badge fail">
+                    <i class="bi bi-x-circle-fill"></i> Not Recommended
+                </span>
+                {% endif %}
+            {% endif %}
+
+            <a href="/my-history/{{ a.id }}" class="btn-view-report">
+                View Report <i class="bi bi-arrow-right-short"></i>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        const isDark = document.documentElement.classList.contains('dark-theme');
+        const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
+        const tickColor = isDark ? '#cbd5e1' : '#475569';
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels | tojson }},
+                datasets: [{
+                    label: 'Score out of 10',
+                    data: {{ chart_scores | tojson }},
+                    borderColor: isDark ? '#00ffff' : '#2563eb',
+                    backgroundColor: isDark ? 'rgba(0, 255, 255, 0.08)' : 'rgba(37,99,235,0.08)',
+                    fill: true,
+                    tension: 0.45,
+                    pointRadius: 5,
+                    pointBackgroundColor: isDark ? '#00ffff' : '#2563eb',
+                    pointBorderColor: isDark ? '#040914' : '#ffffff',
+                    pointBorderWidth: 2,
+                    borderWidth: 2.5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 10,
+                        ticks: { stepSize: 2, color: tickColor, font: { family: 'Inter', size: 11 } },
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        ticks: { color: tickColor, font: { family: 'Inter', size: 11 } },
+                        grid: { color: gridColor }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: isDark ? '#1e293b' : '#0f172a',
+                        titleColor: '#f1f5f9',
+                        bodyColor: '#94a3b8',
+                        borderColor: isDark ? '#334155' : '#1e293b',
+                        borderWidth: 1,
+                        padding: 10,
+                        cornerRadius: 10
+                    }
+                }
+            }
+        });
+    </script>
+
+    {% else %}
+
+    <div class="glass-card">
+        <div class="empty-state">
+            <div class="empty-icon"><i class="bi bi-clipboard2-x"></i></div>
+            <div class="empty-title">No Assessment Records Yet</div>
+            <p class="empty-sub">Complete your first interview assessment to view your evaluation history here.</p>
+            <a href="/interview" class="btn-begin">
+                <i class="bi bi-play-circle-fill"></i> Begin Assessment
+            </a>
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+/* ── History page background particle spawner ── */
+(function() {
+    var container = document.getElementById('dbParticles');
+    if (!container) return;
+    var count = 60;
+    for (var i = 0; i < count; i++) {
+        var star = document.createElement('div');
+        star.className = 'db-star';
+        var size = Math.random() * 2 + 1;
+        star.style.cssText = [
+            'width:' + size + 'px',
+            'height:' + size + 'px',
+            'left:' + (Math.random() * 100) + '%',
+            'top:' + (Math.random() * 100) + '%',
+            'animation-duration:' + (Math.random() * 4 + 2) + 's',
+            'animation-delay:' + (Math.random() * 6) + 's'
+        ].join(';');
+        container.appendChild(star);
+    }
+})();
+</script>
+
+</body>
+</html>

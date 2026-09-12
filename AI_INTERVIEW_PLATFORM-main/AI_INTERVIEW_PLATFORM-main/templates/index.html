@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recruitment &amp; Assessment Platform</title>
+    <meta name="description" content="A professional, enterprise-grade AI-powered mock interview and assessment platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>(function(){ localStorage.setItem('theme','dark'); })();</script>
+    <style>
+        /* ── Index Page Overrides ─        body {
+            font-family: 'Inter', sans-serif;
+            color: #f1f5f9;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── Navbar ── */
+        .hero-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 48px;
+            background: rgba(8, 14, 30, 0.75) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.14);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #00ffff, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.45);
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 16px; }
+
+        .btn-nav-login {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 26px;
+            border-radius: 10px;
+            background: rgba(0, 255, 255, 0.06);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-nav-login:hover {
+            background: rgba(0, 255, 255, 0.15);
+            border-color: #00ffff;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 255, 255, 0.25);
+        }
+
+        /* ── Hero Section ── */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 80px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .institution-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 255, 0.08);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            color: #00ffff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 30px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 36px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.1);
+        }
+
+        h1.hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+            max-width: 900px;
+            margin: 0 0 28px;
+        }
+
+        h1.hero-title span {
+            background: linear-gradient(135deg, #00ffff 10%, #a855f7 60%, #ec4899 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 0 48px;
+        }
+
+        .hero-cta-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+        .btn-hero-primary {
+            background: linear-gradient(135deg, #00ffff, #7c3aed);
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px 42px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.35);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 45px rgba(0, 255, 255, 0.5);
+            color: #fff;
+            filter: brightness(1.1);
+        }
+
+        /* ── Feature Cards (Glassmorphic) ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            max-width: 1040px;
+            width: 100%;
+            padding: 0 24px;
+            margin: 40px auto 100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .feature-card {
+            background: rgba(8, 14, 30, 0.65) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 255, 0.14) !important;
+            border-radius: 20px;
+            padding: 32px 28px;
+            text-align: left;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 255, 255, 0.4) !important;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 255, 255, 0.15);
+            background: rgba(8, 14, 30, 0.8) !important;
+        }
+
+        .feature-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .feature-icon.blue  { background: rgba(0, 212, 255, 0.15); color: #00d4ff; border: 1px solid rgba(0,212,255,0.25); }
+        .feature-icon.green { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
+        .feature-icon.amber { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+        .feature-icon.red   { background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+
+        .feature-card h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .feature-card p {
+            font-size: 0.92rem;
+            color: #94a3b8;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: rgba(8, 14, 30, 0.75) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(0, 255, 255, 0.14);
+            padding: 40px 48px 28px;
+            position: relative;
+            z-index: 10;
+        }
+        .footer-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        .footer-brand-icon {
+            width: 28px; height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00ffff, #7c3aed);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; color: #fff;
+        }
+        .footer-tagline { font-size: 0.82rem; color: #94a3b8; max-width: 280px; line-height: 1.5; }
+        .footer-links { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+        .footer-link {
+            font-size: 0.83rem; font-weight: 500;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.18s ease;
+        }
+        .footer-link:hover { color: #00ffff; text-decoration: none; }
+        .footer-divider { border: none; border-top: 1px solid rgba(0,255,255,0.08); margin: 0; }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .footer-copy { font-size: 0.78rem; color: #94a3b8; }
+        .footer-legal { font-size: 0.75rem; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
+
+        @media (max-width: 768px) {
+            footer { padding: 32px 24px 20px; }
+            .footer-top { flex-direction: column; gap: 16px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+            .hero-nav { padding: 16px 20px; }
+            .hero-section { padding: 60px 20px 40px; }
+            h1.hero-title { font-size: 2.2rem; }
+            .features-grid { padding: 0 16px; }
+        }ures-grid { padding: 0 16px; }
+        /* ══ GOATED BG OVERRIDES ══ */
+        html.dark-theme body {
+            background: #020510 !important;
+            background-image: none !important;
+        }
+        .db-bg {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden; display: none;
+        }
+        html.dark-theme .db-bg { display: block; }
+        .db-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0, 150, 255, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100, 0, 255, 0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0, 255, 220, 0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0, 80, 255, 0.12) 0%, transparent 50%),
+                linear-gradient(160deg, #02060f 0%, #010416 30%, #020820 60%, #010512 100__);
+        }
+        .db-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; animation: orbDrift 18s ease-in-out infinite; }
+        .db-orb-1 { width: 520px; height: 520px; top: -120px; left: -100px; background: radial-gradient(circle, rgba(0, 120, 255, 0.30) 0%, transparent 70%); animation-delay: 0s; animation-duration: 20s; }
+        .db-orb-2 { width: 400px; height: 400px; top: 10%; right: -80px; background: radial-gradient(circle, rgba(120, 0, 255, 0.22) 0%, transparent 70%); animation-delay: -7s; animation-duration: 24s; }
+        .db-orb-3 { width: 480px; height: 480px; bottom: -80px; left: 30%; background: radial-gradient(circle, rgba(0, 200, 255, 0.18) 0%, transparent 70%); animation-delay: -13s; animation-duration: 22s; }
+        .db-orb-4 { width: 300px; height: 300px; top: 45%; right: 25%; background: radial-gradient(circle, rgba(60, 0, 180, 0.16) 0%, transparent 70%); animation-delay: -4s; animation-duration: 19s; }
+        .db-orb-5 { width: 350px; height: 350px; bottom: 10%; right: -50px; background: radial-gradient(circle, rgba(0, 255, 180, 0.12) 0%, transparent 70%); animation-delay: -9s; animation-duration: 26s; }
+        @keyframes orbDrift {
+            0%   { opacity: 0.6; transform: translate(0, 0) scale(1); }
+            25%  { opacity: 0.8; transform: translate(30px, -20px) scale(1.05); }
+            50%  { opacity: 0.55; transform: translate(-20px, 30px) scale(0.97); }
+            75%  { opacity: 0.75; transform: translate(15px, 10px) scale(1.03); }
+            100% { opacity: 0.6; transform: translate(0, 0) scale(1); }
+        }
+        .db-grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(0, 200, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 255, 0.035) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+        }
+        .db-particles { position: absolute; inset: 0; }
+        .db-star { position: absolute; border-radius: 50%; background: #ffffff; animation: starTwinkle linear infinite; }
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50%      { opacity: 0.55; transform: scale(1.6); }
+        }
+        .db-topbar-glow {
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 200, 255, 0.7) 30%, rgba(120, 0, 255, 0.7) 70%, transparent 100%);
+            animation: topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.2); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ffff; }
+    </style>
+</head>
+<body>
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+<nav class="hero-nav">
+    <a class="brand" href="/">
+        <div class="brand-icon"><i class="bi bi-cpu-fill"></i></div>
+        AI Interview Platform
+    </a>
+    <div class="nav-links">
+        <a href="/login" class="btn-nav-login">Sign In</a>
+    </div>
+</nav>
+
+<section class="hero-section">
+    <div class="institution-chip">
+        <i class="bi bi-shield-check"></i>
+        Adaptive Assessment Lab
+    </div>
+
+    <h1 class="hero-title">
+        Enterprise AI Mock Interviews<br><span>Prep for Careers &amp; Success</span>
+    </h1>
+
+    <p class="hero-desc">
+        Evaluate your skills with custom-tailored technical questions, upload your resume for real-time analysis,
+        and download certified candidate placement reports.
+    </p>
+
+    <div class="hero-cta-row">
+        <a href="/login" class="btn-hero-primary">
+            <i class="bi bi-rocket-takeoff-fill"></i>
+            Explore &amp; Get Started
+        </a>
+    </div>
+</section>
+
+<div class="features-grid">
+    <div class="feature-card">
+        <div class="feature-icon blue"><i class="bi bi-lightning-charge-fill"></i></div>
+        <h4>Gemini AI Evaluation</h4>
+        <p>Adaptive, real-time questioning engine mimics actual industry placement standards.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon green"><i class="bi bi-file-earmark-check-fill"></i></div>
+        <h4>Certified Feedback Reports</h4>
+        <p>Get formal, printable, letterhead-style PDF feedback with breakdown scorecards.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon amber"><i class="bi bi-activity"></i></div>
+        <h4>Longitudinal History</h4>
+        <p>Keep track of attempt details and progress metrics with modern dashboard charts.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon red"><i class="bi bi-laptop-fill"></i></div>
+        <h4>Company Prep Hubs</h4>
+        <p>Explore specialized question modules tailored for Wipro, Capgemini, Infosys, and more.</p>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div>
+                <div class="footer-brand">
+                    <div class="footer-brand-icon"><i class="bi bi-cpu-fill"></i></div>
+                    AI Interview Platform
+                </div>
+                <p class="footer-tagline">Professional AI-powered mock interview and candidate assessment suite for placement readiness.</p>
+            </div>
+            <div class="footer-links">
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="/privacy#terms" class="footer-link">Terms of Use</a>
+                <a href="/login" class="footer-link">Sign In</a>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <span class="footer-copy">&copy; 2026 AI Assessment Lab &middot; All rights reserved.</span>
+            <span class="footer-legal">
+                <i class="bi bi-shield-check" style="color:#00ffff;"></i>
+                Data processed securely &middot; No data sold to third parties
+            </span>
+        </div>
+    </div>
+</footer>
+<script>
+/* ── Landing page background particle spawner ── */
+(function() {
+    var container = document.getElementById('dbParticles');
+    if (!container) return;
+    var count = 60;
+    for (var i = 0; i < count; i++) {
+        var star = document.createElement('div');
+        star.className = 'db-star';
+        var size = Math.random() * 2 + 1;
+        star.style.cssText = [
+            'width:' + size + 'px',
+            'height:' + size + 'px',
+            'left:' + (Math.random() * 100) + '%',
+            'top:' + (Math.random() * 100) + '%',
+            'animation-duration:' + (Math.random() * 4 + 2) + 's',
+            'animation-delay:' + (Math.random() * 6) + 's'
+        ].join(';');
+        container.appendChild(star);
+    }
+})();
+</script>
+
+</body>
+</html>

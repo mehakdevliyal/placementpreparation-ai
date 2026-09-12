@@ -1,0 +1,624 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name }} Interview Resources - AI Assessment Platform</title>
+    <meta name="description" content="Curated interview preparation resources for {{ company.name }} - coding questions, aptitude papers, system design guides, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script>
+    (function() {
+        document.documentElement.classList.add('dark-theme');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+    })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            
+            color: var(--ink);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* Abstract Organic Background Orbs (colored dynamically to match company) */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -1;
+            opacity: 0.45;
+            pointer-events: none;
+            animation: floatOrb 22s infinite alternate ease-in-out;
+        }
+        .orb-1 {
+            top: -10%;
+            left: -5%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, {{ company.color }} 0%, rgba(255,255,255,0) 70%);
+        }
+        .orb-2 {
+            bottom: -5%;
+            right: -5%;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, #7928ca 0%, rgba(255,255,255,0) 70%);
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -30px) scale(1.1); }
+            100% { transform: translate(-20px, 40px) scale(0.9); }
+        }
+
+        /* Cyber grid texture */
+        .cyber-grid {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* â”€â”€ Hero Banner â”€â”€ */
+        .company-hero {
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 28px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 15px 45px -15px rgba(0, 0, 0, 0.03), 0 0 30px var(--accent-glow);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            padding: 2.5px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.3) 60%, var(--accent) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .hero-logo-badge {
+            width: 96px; height: 96px;
+            border-radius: 22px;
+            display: flex; align-items: center; justify-content: center;
+            background: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
+            transition: all 0.4s ease;
+        }
+        .hero-logo-badge img {
+            width: 54px; height: 54px;
+            object-fit: contain;
+        }
+        .hero-logo-badge i {
+            font-size: 2.5rem;
+        }
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem; font-weight: 700;
+            color: #0f172a; margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        .hero-desc {
+            color: #475569; font-size: 1rem;
+            line-height: 1.7; max-width: 780px;
+        }
+
+        /* â”€â”€ Section Label â”€â”€ */
+        .section-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem; font-weight: 800;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: #94a3b8; margin-bottom: 24px;
+        }
+
+        /* â”€â”€ Resource Card â”€â”€ */
+        .resource-card {
+            background: rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 24px;
+            padding: 30px;
+            display: flex; flex-direction: column;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            /* Reduced permanent aura shadow */
+            box-shadow: 0 8px 25px -10px rgba(0, 0, 0, 0.02), 0 0 12px var(--card-glow);
+            z-index: 1;
+        }
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 24px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 50%, var(--card-accent) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+        .card-aura {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(circle at 100% 0%, var(--card-glow) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            opacity: 0.8;
+        }
+        .resource-card:hover .card-aura {
+            opacity: 1.2;
+            background: radial-gradient(circle at 100% 0%, var(--card-accent) 15%, transparent 70%);
+        }
+        .resource-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--card-accent, #4e73df);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            border-radius: 0 0 24px 24px;
+        }
+        .resource-card:hover {
+            transform: translateY(-8px);
+            /* Reduced hover shadow glow */
+            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.04), 0 0 15px var(--card-glow);
+            border-color: rgba(255, 255, 255, 0.9);
+            color: inherit;
+        }
+        .resource-card:hover::after { transform: scaleX(1); }
+
+        .card-site-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.72rem; font-weight: 800;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            padding: 5px 12px; border-radius: 20px;
+            background: var(--badge-bg, #eef2ff);
+            color: var(--badge-color, #4e73df);
+            display: inline-block; margin-bottom: 20px;
+            align-self: flex-start;
+        }
+        .card-icon-wrap {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--icon-bg, #f0f4ff);
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            transition: all 0.4s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+        .card-icon-wrap img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+        .resource-card:hover .card-icon-wrap {
+            transform: scale(1.1);
+        }
+        .card-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem; font-weight: 700;
+            color: #0f172a; margin-bottom: 8px;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .card-desc {
+            font-size: 0.88rem; color: #475569;
+            line-height: 1.65; flex-grow: 1;
+        }
+        .card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--cta-color, #4e73df);
+            margin-top: 24px;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 12px var(--card-glow);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-cta i { transition: transform 0.2s; }
+        .resource-card:hover .card-cta {
+            background: var(--card-accent);
+            color: #ffffff !important;
+            border-color: var(--card-accent);
+            box-shadow: 0 0 15px var(--card-accent);
+        }
+        .resource-card:hover .card-cta i { transform: translate(2px, -2px); }
+
+        /* â”€â”€ Colour themes per site â”€â”€ */
+        .theme-prepinsta  { --card-accent:#FF6B35; --card-glow:rgba(255,107,53,0.15); --badge-bg:#fff3ee; --badge-color:#FF6B35; --icon-bg:#fff3ee; --icon-color:#FF6B35; --cta-color:#FF6B35; }
+        .theme-gfg        { --card-accent:#2f8d46; --card-glow:rgba(47,141,70,0.15); --badge-bg:#edfaf1; --badge-color:#2f8d46; --icon-bg:#edfaf1; --icon-color:#2f8d46; --cta-color:#2f8d46; }
+        .theme-leetcode   { --card-accent:#f89f1b; --card-glow:rgba(248,159,27,0.15); --badge-bg:#fff8ec; --badge-color:#f89f1b; --icon-bg:#fff8ec; --icon-color:#f89f1b; --cta-color:#f89f1b; }
+        .theme-interviewbit { --card-accent:#0038A6; --card-glow:rgba(0,56,166,0.15); --badge-bg:#eef2ff; --badge-color:#0038A6; --icon-bg:#eef2ff; --icon-color:#0038A6; --cta-color:#0038A6; }
+        .theme-indiabix   { --card-accent:#e91e63; --card-glow:rgba(233,30,99,0.15); --badge-bg:#fde8f1; --badge-color:#e91e63; --icon-bg:#fde8f1; --icon-color:#e91e63; --cta-color:#e91e63; }
+        .theme-infytq     { --card-accent:#007CC3; --card-glow:rgba(0,124,195,0.15); --badge-bg:#e8f4fb; --badge-color:#007CC3; --icon-bg:#e8f4fb; --icon-color:#007CC3; --cta-color:#007CC3; }
+        .theme-glassdoor  { --card-accent:#0CAA41; --card-glow:rgba(12,170,65,0.15); --badge-bg:#e8faf0; --badge-color:#0CAA41; --icon-bg:#e8faf0; --icon-color:#0CAA41; --cta-color:#0CAA41; }
+
+        /* â”€â”€ Pro Tip banner â”€â”€ */
+        .pro-tip {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 24px;
+            padding: 28px 32px;
+            color: #fff;
+            margin-top: 40px;
+            display: flex; align-items: center; gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+        .pro-tip-icon {
+            font-size: 2rem; flex-shrink: 0;
+            width: 56px; height: 56px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pro-tip-text strong { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+        .pro-tip-text p { font-size: 0.88rem; color: #94a3b8; margin: 6px 0 0; line-height: 1.6; }
+
+        /* Back Button Style with Blue Hover Glow */
+        .btn-back {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            color: #475569 !important;
+            font-weight: 600;
+        }
+        .btn-back:hover {
+            background: #ffffff !important;
+            border-color: #0070f3 !important;
+            color: #0070f3 !important;
+            box-shadow: 0 0 15px rgba(0, 112, 243, 0.45) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Dark Theme overrides */
+        html.dark-theme body {
+            
+        }
+        html.dark-theme .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        }
+        html.dark-theme .breadcrumb-item.active {
+            color: #ffffff !important;
+        }
+        html.dark-theme .breadcrumb-item a {
+            color: #b0c4d8 !important;
+        }
+        html.dark-theme .company-hero {
+            background: rgba(10, 15, 29, 0.75) !important;
+            border-color: rgba(0, 255, 255, 0.25) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), 0 0 30px var(--accent-glow) !important;
+        }
+        html.dark-theme .company-hero::before {
+            background: linear-gradient(135deg, rgba(0,255,255,0.4), rgba(0,255,255,0.1) 60%, var(--accent) 100%) !important;
+        }
+        html.dark-theme .hero-logo-badge {
+            background: #040914 !important;
+            border-color: rgba(0, 255, 255, 0.25) !important;
+        }
+        html.dark-theme .hero-title {
+            color: #ffffff !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8) !important;
+        }
+        html.dark-theme .hero-desc {
+            color: #cbd5e1 !important;
+        }
+        html.dark-theme .resource-card {
+            background: rgba(10, 15, 29, 0.75) !important;
+            border-color: rgba(0, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+        }
+        html.dark-theme .resource-card::before {
+            background: linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,255,255,0.05) 50%, var(--card-accent) 100%) !important;
+        }
+        html.dark-theme .resource-card:hover {
+            border-color: var(--card-accent) !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--card-accent) !important;
+        }
+        html.dark-theme .card-label {
+            color: #ffffff !important;
+        }
+        html.dark-theme .card-desc {
+            color: #cbd5e1 !important;
+        }
+        html.dark-theme .card-cta {
+            background: rgba(4, 9, 20, 0.8) !important;
+            border-color: rgba(0, 255, 255, 0.2) !important;
+            color: var(--cta-color) !important;
+        }
+        html.dark-theme .card-cta:hover {
+            background: var(--card-accent) !important;
+            color: #ffffff !important;
+            border-color: var(--card-accent) !important;
+        }
+        html.dark-theme .pro-tip {
+            background: linear-gradient(135deg, #050a15 0%, #0c1830 100%) !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+        }
+        html.dark-theme .btn-back {
+            background: rgba(10, 15, 29, 0.85) !important;
+            border-color: rgba(0, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+        }
+        html.dark-theme .btn-back:hover {
+            background: rgba(0, 255, 255, 0.12) !important;
+            border-color: #00ffff !important;
+            color: #00ffff !important;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.45) !important;
+        }
+        
+        /* Modern neon-tinted transparent badge style for dark mode */
+        html.dark-theme .theme-prepinsta  { --badge-bg: rgba(255,107,53,0.12); --badge-color: #FF6B35; --icon-bg: rgba(255,107,53,0.08); }
+        html.dark-theme .theme-gfg        { --badge-bg: rgba(47,141,70,0.12);  --badge-color: #34d399; --icon-bg: rgba(47,141,70,0.08); }
+        html.dark-theme .theme-leetcode   { --badge-bg: rgba(248,159,27,0.12);  --badge-color: #f89f1b; --icon-bg: rgba(248,159,27,0.08); }
+        html.dark-theme .theme-interviewbit { --badge-bg: rgba(96,165,250,0.12); --badge-color: #60a5fa; --icon-bg: rgba(96,165,250,0.08); }
+        html.dark-theme .theme-indiabix   { --badge-bg: rgba(233,30,99,0.12);   --badge-color: #f43f5e; --icon-bg: rgba(233,30,99,0.08); }
+        html.dark-theme .theme-infytq     { --badge-bg: rgba(0,124,195,0.12);  --badge-color: #38bdf8; --icon-bg: rgba(0,124,195,0.08); }
+        html.dark-theme .theme-glassdoor  { --badge-bg: rgba(12,170,65,0.12);   --badge-color: #10b981; --icon-bg: rgba(12,170,65,0.08); }
+        
+        html.dark-theme .card-site-badge {
+            background: var(--badge-bg) !important;
+            color: var(--badge-color) !important;
+            border: 1px solid var(--badge-bg) !important;
+        }
+
+        /* Micro-animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-item {
+            animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* ══ GOATED BG OVERRIDES ══ */
+        html.dark-theme body {
+            background: #020510 !important;
+            background-image: none !important;
+        }
+        html.dark-theme .orb {
+            display: none !important;
+        }
+        .db-bg {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden; display: none;
+        }
+        html.dark-theme .db-bg { display: block; }
+        .db-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0,150,255,0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100,0,255,0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0,255,220,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0,80,255,0.12) 0%, transparent 50%),
+                linear-gradient(160deg,#02060f 0%,#010416 30%,#020820 60%,#010512 100%);
+        }
+        .db-orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0; animation:orbDrift 18s ease-in-out infinite; }
+        .db-orb-1 { width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,rgba(0,120,255,0.30) 0%,transparent 70%);animation-delay:0s;animation-duration:20s; }
+        .db-orb-2 { width:400px;height:400px;top:10%;right:-80px;background:radial-gradient(circle,rgba(120,0,255,0.22) 0%,transparent 70%);animation-delay:-7s;animation-duration:24s; }
+        .db-orb-3 { width:480px;height:480px;bottom:-80px;left:30%;background:radial-gradient(circle,rgba(0,200,255,0.18) 0%,transparent 70%);animation-delay:-13s;animation-duration:22s; }
+        .db-orb-4 { width:300px;height:300px;top:45%;right:25%;background:radial-gradient(circle,rgba(60,0,180,0.16) 0%,transparent 70%);animation-delay:-4s;animation-duration:19s; }
+        .db-orb-5 { width:350px;height:350px;bottom:10%;right:-50px;background:radial-gradient(circle,rgba(0,255,180,0.12) 0%,transparent 70%);animation-delay:-9s;animation-duration:26s; }
+        @keyframes orbDrift {
+            0%   { opacity:0.6; transform:translate(0,0) scale(1); }
+            25%  { opacity:0.8; transform:translate(30px,-20px) scale(1.05); }
+            50%  { opacity:0.55; transform:translate(-20px,30px) scale(0.97); }
+            75%  { opacity:0.75; transform:translate(15px,10px) scale(1.03); }
+            100% { opacity:0.6; transform:translate(0,0) scale(1); }
+        }
+        .db-grid {
+            position:absolute; inset:0;
+            background-image: linear-gradient(rgba(0,200,255,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,255,0.035) 1px,transparent 1px);
+            background-size:60px 60px;
+            mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+            -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+        }
+        .db-particles { position:absolute; inset:0; }
+        .db-star { position:absolute; border-radius:50%; background:#ffffff; animation:starTwinkle linear infinite; }
+        @keyframes starTwinkle {
+            0%,100% { opacity:0.05; transform:scale(1); }
+            50%      { opacity:0.55; transform:scale(1.6); }
+        }
+        .db-topbar-glow {
+            position:absolute; top:0; left:0; right:0; height:2px;
+            background:linear-gradient(90deg,transparent 0%,rgba(0,200,255,0.7) 30%,rgba(120,0,255,0.7) 70%,transparent 100%);
+            animation:topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+        ::-webkit-scrollbar{width:6px;height:6px;}
+        ::-webkit-scrollbar-track{background:transparent;}
+        ::-webkit-scrollbar-thumb{background:rgba(0,255,255,0.2);border-radius:99px;}
+        ::-webkit-scrollbar-thumb:hover{background:#00ffff;}
+    </style>
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+<!-- Background Tech Effects -->
+<div class="cyber-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="container py-5" style="max-width: 1100px; position: relative; z-index: 10;">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb mb-0" style="font-size:0.875rem;">
+            <li class="breadcrumb-item"><a href="/tech-questions" class="text-decoration-none text-muted">Company Hub</a></li>
+            <li class="breadcrumb-item active" style="color:#0f172a; font-weight:600;">{{ company.name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="company-hero" style="--accent: {{ company.color }}; --accent-glow: {{ company.color }}20;">
+        <div class="d-flex flex-md-row flex-column align-items-md-center gap-4">
+            <!-- Glassmorphic Badge with Official Logo -->
+            <div class="hero-logo-badge">
+                {% set logo_map = {
+                    'google': 'https://cdn.simpleicons.org/google',
+                    'microsoft': 'https://cdn.simpleicons.org/microsoft',
+                    'amazon': 'https://cdn.simpleicons.org/amazon',
+                    'meta': 'https://cdn.simpleicons.org/meta',
+                    'netflix': 'https://cdn.simpleicons.org/netflix',
+                    'tcs': 'https://cdn.simpleicons.org/tataconsultancyservices',
+                    'infosys': 'https://cdn.simpleicons.org/infosys',
+                    'wipro': 'https://cdn.simpleicons.org/wipro',
+                    'accenture': 'https://cdn.simpleicons.org/accenture',
+                    'cognizant': 'https://cdn.simpleicons.org/cognizant'
+                } %}
+                {% set logo_url = logo_map[company_key] %}
+                {% if logo_url %}
+                <img src="{{ logo_url }}" alt="{{ company.name }} logo">
+                {% else %}
+                <span style="color: {{ company.color }};">
+                    <i class="bi bi-buildings-fill"></i>
+                </span>
+                {% endif %}
+            </div>
+            <div class="flex-grow-1">
+                <h1 class="hero-title">{{ company.name }} Interview Prep</h1>
+                <p class="hero-desc mb-0">{{ company.description }}</p>
+            </div>
+            <a href="/tech-questions" class="btn btn-back rounded-pill px-4 py-2 border shadow-sm align-self-start flex-shrink-0">
+                <i class="bi bi-arrow-left me-1"></i> BACK
+            </a>
+        </div>
+    </div>
+
+    <!-- Resource Cards -->
+    <p class="section-label">Curated Study Resources</p>
+    <div class="row g-4 mb-4">
+        {% for r in company.resources %}
+        {% set site_lower = r.site | lower | replace(' ', '') %}
+        {% set domain_map = {
+            'leetcode': 'leetcode.com',
+            'geeksforgeeks': 'geeksforgeeks.org',
+            'interviewbit': 'interviewbit.com',
+            'prepinsta': 'prepinsta.com',
+            'indiabix': 'indiabix.com',
+            'infytq': 'infosys.com',
+            'glassdoor': 'glassdoor.com'
+        } %}
+        {% set site_key = 'interviewbit' %}
+        {% if 'prepinsta' in site_lower %}{% set site_key = 'prepinsta' %}
+        {% elif 'geeks' in site_lower %}{% set site_key = 'geeksforgeeks' %}
+        {% elif 'leetcode' in site_lower %}{% set site_key = 'leetcode' %}
+        {% elif 'indiabix' in site_lower %}{% set site_key = 'indiabix' %}
+        {% elif 'infytq' in site_lower or 'infosys' in site_lower %}{% set site_key = 'infytq' %}
+        {% elif 'glassdoor' in site_lower %}{% set site_key = 'glassdoor' %}
+        {% endif %}
+        <div class="col-lg-6 col-md-6 animate-item" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+            <a href="{{ r.url }}" target="_blank" rel="noopener noreferrer"
+               class="resource-card
+                {% if 'prepinsta' in site_lower %}theme-prepinsta
+                {% elif 'geeks' in site_lower %}theme-gfg
+                {% elif 'leetcode' in site_lower %}theme-leetcode
+                {% elif 'interviewbit' in site_lower %}theme-interviewbit
+                {% elif 'indiabix' in site_lower %}theme-indiabix
+                {% elif 'infytq' in site_lower or 'infosys' in site_lower %}theme-infytq
+                {% elif 'glassdoor' in site_lower %}theme-glassdoor
+                {% else %}theme-interviewbit{% endif %}">
+                
+                <div class="card-aura"></div>
+                <span class="card-site-badge">{{ r.site }}</span>
+                
+                <!-- Glassmorphic Icon Wrapper with Official Platform Favicon Logo -->
+                <div class="card-icon-wrap" style="background: var(--icon-bg); color: var(--icon-color);">
+                    <img src="https://www.google.com/s2/favicons?sz=128&domain={{ domain_map[site_key] }}" alt="{{ r.site }} Logo" style="width: 32px; height: 32px; object-fit: contain;">
+                </div>
+
+                <div class="card-label">{{ r.label }}</div>
+                <div class="card-desc">{{ r.desc }}</div>
+                <span class="card-cta">
+                    Open on {{ r.site }} <i class="bi bi-arrow-up-right"></i>
+                </span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pro Tip -->
+    <div class="pro-tip animate-item" style="animation-delay: 0.25s;">
+        <div class="pro-tip-icon"><i class="bi bi-lightbulb-fill text-warning"></i></div>
+        <div class="pro-tip-text">
+            <strong>Pro Tip - Combine resources for best results</strong>
+            <p>Use PrepInsta &amp; IndiaBix for aptitude rounds, GeeksForGeeks for topic-wise DSA prep, LeetCode for timed mock coding, and InterviewBit for full-length mock interviews. Covering all four gives you an edge over 90% of candidates.</p>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Company Tech Questions ” AI Assessment Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script>
+    (function() {
+        document.documentElement.classList.add('dark-theme');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+    })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            
+            color: var(--ink);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* Abstract Organic Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            z-index: -1;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: floatOrb 20s infinite alternate ease-in-out;
+        }
+        .orb-1 {
+            top: -10%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #ff007f 0%, rgba(255,0,127,0) 70%);
+            animation-duration: 25s;
+        }
+        .orb-2 {
+            bottom: 10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #0070f3 0%, rgba(0,112,243,0) 70%);
+            animation-duration: 30s;
+        }
+        .orb-3 {
+            top: 40%;
+            left: 20%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #7928ca 0%, rgba(121,40,202,0) 70%);
+            animation-duration: 22s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.15); }
+            100% { transform: translate(-30px, 50px) scale(0.9); }
+        }
+
+        /* Grid lines for cyber-tech texture */
+        .cyber-grid {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Header Title Premium Style */
+        .catalog-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #67e8f9 50%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+            text-shadow: none;
+            filter: drop-shadow(0 2px 12px rgba(0,212,255,0.35));
+        }
+
+        .catalog-subtitle {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        /* Cards Layout styling */
+        .company-card {
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.45);
+            /* Reduced glow shadow */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02), 0 0 10px var(--brand-glow);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            z-index: 1;
+        }
+
+        .company-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 50%, var(--brand-color) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .company-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            /* Reduced hover glow shadow */
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.04), 0 0 15px var(--brand-glow);
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card-aura {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(circle at 100% 0%, var(--brand-glow) 0%, transparent 65%);
+            z-index: -1;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            opacity: 0.8;
+        }
+
+        .company-card:hover .card-aura {
+            opacity: 1.2;
+            background: radial-gradient(circle at 100% 0%, var(--brand-color) 20%, transparent 75%);
+        }
+
+        .logo-badge {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 24px -6px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .company-card:hover .logo-badge {
+            transform: scale(1.1) rotate(4deg);
+            background: #ffffff;
+            box-shadow: 0 12px 28px -4px rgba(0,0,0,0.1);
+        }
+
+        .logo-badge img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            transition: transform 0.4s;
+        }
+
+        .card-explore-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px var(--brand-glow);
+        }
+
+        .company-card:hover .card-explore-btn {
+            gap: 10px;
+            background: var(--brand-color);
+            color: #ffffff !important;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 15px var(--brand-color);
+        }
+
+        /* Back Button Style with Blue Hover Glow */
+        .btn-back {
+            background: rgba(255, 255, 255, 0.7) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            color: #475569 !important;
+            font-weight: 600;
+        }
+        .btn-back:hover {
+            background: #ffffff !important;
+            border-color: #0070f3 !important;
+            color: #0070f3 !important;
+            box-shadow: 0 0 15px rgba(0, 112, 243, 0.45) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Dark Theme Overrides */
+        html.dark-theme body {
+            
+        }
+        html.dark-theme .catalog-title {
+            background: linear-gradient(135deg, #ffffff 0%, #67e8f9 50%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 12px rgba(0,212,255,0.35));
+        }
+        html.dark-theme .catalog-subtitle {
+            color: #cbd5e1;
+        }
+        html.dark-theme .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        }
+        html.dark-theme .company-card {
+            background: rgba(15, 30, 58, 0.45);
+            border-color: rgba(30, 58, 95, 0.6);
+            color: #f0f6ff;
+        }
+        html.dark-theme .company-card::before {
+            background: linear-gradient(135deg, rgba(30,58,95,0.8), rgba(30,58,95,0.2) 50%, var(--brand-color) 100%);
+        }
+        html.dark-theme .company-card:hover {
+            border-color: var(--brand-color);
+        }
+        html.dark-theme .logo-badge {
+            background: rgba(10, 22, 40, 0.85);
+            border-color: rgba(30, 58, 95, 0.85);
+        }
+        html.dark-theme .company-card h4 {
+            color: #f0f6ff !important;
+        }
+        html.dark-theme .company-card .text-muted {
+            color: var(--text-desc) !important;
+        }
+        html.dark-theme .card-explore-btn {
+            background: rgba(10, 22, 40, 0.7);
+            border-color: rgba(30, 58, 95, 0.9);
+            color: var(--brand-color) !important;
+        }
+        html.dark-theme .btn-back {
+            background: rgba(15, 30, 58, 0.7) !important;
+            border-color: rgba(30, 58, 95, 0.8) !important;
+            color: #c0d4f0 !important;
+        }
+        html.dark-theme .btn-back:hover {
+            background: #162040 !important;
+            border-color: #3b82f6 !important;
+            color: #3b82f6 !important;
+        }
+
+        /* Micro-animations for loading cards */
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-card {
+            animation: cardFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Disable pre-existing static orbs and cyber-grid in dark theme */
+        html.dark-theme .orb {
+            display: none !important;
+        }
+        html.dark-theme .cyber-grid {
+            display: none !important;
+        }
+
+        /* ══ GOATED BG OVERRIDES ══ */
+        html.dark-theme body {
+            background: #020510 !important;
+            background-image: none !important;
+        }
+        .db-bg {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden; display: none;
+        }
+        html.dark-theme .db-bg { display: block; }
+        .db-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0,150,255,0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(100,0,255,0.14) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0,255,220,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0,80,255,0.12) 0%, transparent 50%),
+                linear-gradient(160deg,#02060f 0%,#010416 30%,#020820 60%,#010512 100%);
+        }
+        .db-orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0; animation:orbDrift 18s ease-in-out infinite; }
+        .db-orb-1 { width:520px;height:520px;top:-120px;left:-100px;background:radial-gradient(circle,rgba(0,120,255,0.30) 0%,transparent 70%);animation-delay:0s;animation-duration:20s; }
+        .db-orb-2 { width:400px;height:400px;top:10%;right:-80px;background:radial-gradient(circle,rgba(120,0,255,0.22) 0%,transparent 70%);animation-delay:-7s;animation-duration:24s; }
+        .db-orb-3 { width:480px;height:480px;bottom:-80px;left:30%;background:radial-gradient(circle,rgba(0,200,255,0.18) 0%,transparent 70%);animation-delay:-13s;animation-duration:22s; }
+        .db-orb-4 { width:300px;height:300px;top:45%;right:25%;background:radial-gradient(circle,rgba(60,0,180,0.16) 0%,transparent 70%);animation-delay:-4s;animation-duration:19s; }
+        .db-orb-5 { width:350px;height:350px;bottom:10%;right:-50px;background:radial-gradient(circle,rgba(0,255,180,0.12) 0%,transparent 70%);animation-delay:-9s;animation-duration:26s; }
+        @keyframes orbDrift {
+            0%   { opacity:0.6; transform:translate(0,0) scale(1); }
+            25%  { opacity:0.8; transform:translate(30px,-20px) scale(1.05); }
+            50%  { opacity:0.55; transform:translate(-20px,30px) scale(0.97); }
+            75%  { opacity:0.75; transform:translate(15px,10px) scale(1.03); }
+            100% { opacity:0.6; transform:translate(0,0) scale(1); }
+        }
+        .db-grid {
+            position:absolute; inset:0;
+            background-image: linear-gradient(rgba(0,200,255,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,255,0.035) 1px,transparent 1px);
+            background-size:60px 60px;
+            mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+            -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+        }
+        .db-particles { position:absolute; inset:0; }
+        .db-star { position:absolute; border-radius:50%; background:#ffffff; animation:starTwinkle linear infinite; }
+        @keyframes starTwinkle {
+            0%,100% { opacity:0.05; transform:scale(1); }
+            50%      { opacity:0.55; transform:scale(1.6); }
+        }
+        .db-topbar-glow {
+            position:absolute; top:0; left:0; right:0; height:2px;
+            background:linear-gradient(90deg,transparent 0%,rgba(0,200,255,0.7) 30%,rgba(120,0,255,0.7) 70%,transparent 100%);
+            animation:topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+        ::-webkit-scrollbar{width:6px;height:6px;}
+        ::-webkit-scrollbar-track{background:transparent;}
+        ::-webkit-scrollbar-thumb{background:rgba(0,255,255,0.2);border-radius:99px;}
+        ::-webkit-scrollbar-thumb:hover{background:#00ffff;}
+    </style>
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<!-- ══ GOATED ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+<!-- Background Tech Effects -->
+<div class="cyber-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="container py-5" style="position: relative; z-index: 10;">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-4 mb-5 border-bottom border-light pb-4">
+        <div>
+            <h2 class="catalog-title mb-2">Company Interview Prep Hub</h2>
+            <p class="catalog-subtitle mb-0">Study highly targeted technical and behavioral questions gathered from recent placement assessments at top-tier firms.</p>
+        </div>
+        <a href="/dashboard" class="btn btn-back rounded-pill px-4 py-2 border shadow-sm">
+            <i class="bi bi-arrow-left me-1"></i> BACK
+        </a>
+    </div>
+
+    <!-- Company Grid -->
+    <div class="row g-4">
+        {% set logo_map = {
+            'google': 'https://www.google.com/s2/favicons?sz=128&domain=google.com',
+            'microsoft': 'https://www.google.com/s2/favicons?sz=128&domain=microsoft.com',
+            'amazon': 'https://www.google.com/s2/favicons?sz=128&domain=amazon.com',
+            'meta': 'https://www.google.com/s2/favicons?sz=128&domain=meta.com',
+            'netflix': 'https://www.google.com/s2/favicons?sz=128&domain=netflix.com',
+            'tcs': 'https://www.google.com/s2/favicons?sz=128&domain=tcs.com',
+            'infosys': 'https://www.google.com/s2/favicons?sz=128&domain=infosys.com',
+            'wipro': 'https://www.google.com/s2/favicons?sz=128&domain=wipro.com',
+            'accenture': 'https://www.google.com/s2/favicons?sz=128&domain=accenture.com',
+            'cognizant': 'https://www.google.com/s2/favicons?sz=128&domain=cognizant.com'
+        } %}
+        {% for c in companies %}
+        <div class="col-lg-4 col-md-6 animate-card" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+            <a href="/tech-questions/{{ c.key }}" class="company-card" style="--brand-color: {{ c.color }}; --brand-glow: {{ c.color }}25;">
+                <div class="card-aura"></div>
+                <div class="p-4 flex-grow-1 d-flex flex-column justify-content-between" style="position: relative; z-index: 10;">
+                    <div class="d-flex flex-column align-items-start">
+                        <!-- Glassmorphic Badge with Official Logo -->
+                        <div class="logo-badge">
+                            {% set logo_url = logo_map[c.key] %}
+                            {% if logo_url %}
+                            <img src="{{ logo_url }}" alt="{{ c.name }} Logo">
+                            {% else %}
+                            <span style="color: {{ c.color }};">
+                                <i class="bi bi-buildings-fill" style="font-size: 2rem;"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <h4 class="fw-bold mb-2" style="letter-spacing: -0.02em; color: #f0f6ff !important;">{{ c.name }}</h4>
+                        <p class="text-muted fs-7 mb-3" style="line-height:1.6; min-height:60px; color: #94a3b8 !important;">{{ c.description }}</p>
+                    </div>
+                    
+                    <div class="mt-auto pt-3 border-top w-100 d-flex justify-content-between align-items-center" style="border-color: rgba(255,255,255,0.08) !important;">
+                        <span class="fs-7 fw-semibold" style="color: {{ c.color }};">
+                            <i class="bi bi-bookmark-star-fill me-1"></i> {{ c.total_questions }} Curated Resources
+                        </span>
+                        <span class="card-explore-btn">Explore <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>

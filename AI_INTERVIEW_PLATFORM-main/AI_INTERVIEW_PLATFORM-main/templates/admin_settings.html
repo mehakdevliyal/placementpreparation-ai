@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <title>Assessment Settings — AI Recruitment Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        (function() {
+            document.documentElement.classList.add('dark-theme');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        })();
+    </script>
+    <style>
+        :root {
+            --surface: #08122a;
+            --bg: #020510;
+            --border: #334155;
+            --text-1: #ffffff;
+            --text-2: #94a3b8;
+            --brand: #00ffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            color: #ffffff;
+            background: #020510 !important;
+            background-image: none !important;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .settings-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .settings-card {
+            border: 1.5px solid #334155 !important;
+            border-radius: 24px;
+            background: #08122a !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            padding: 38px 44px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffff, #0284c7, #818cf8, #00ffff);
+            background-size: 200% 100%;
+            animation: shimmerBorder 3s linear infinite;
+        }
+        @keyframes shimmerBorder {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .settings-header {
+            border-bottom: 1.5px solid #334155;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .settings-icon-badge {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #00ffff 0%, #0284c7 100%) !important;
+            color: #020510 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 900;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            flex-shrink: 0;
+        }
+
+        .settings-header h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            color: #ffffff !important;
+            margin: 0;
+            font-size: 1.55rem;
+            letter-spacing: -0.01em;
+        }
+
+        .settings-header p {
+            color: #94a3b8 !important;
+            font-family: 'Inter', sans-serif;
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+        }
+
+        .form-label {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            color: #ffffff !important;
+            font-size: 0.98rem;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-label i {
+            color: #00ffff !important;
+            font-size: 1.1rem;
+        }
+
+        .form-control, .form-select {
+            border: 1.5px solid #475569 !important;
+            border-radius: 12px !important;
+            padding: 0.8rem 1.1rem !important;
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+            font-family: 'Inter', sans-serif !important;
+            transition: all 0.2s ease !important;
+            color: #ffffff !important;
+            background: #0b1329 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #00ffff !important;
+            background: #0f1c3d !important;
+            box-shadow: 0 0 18px rgba(0, 255, 255, 0.45) !important;
+            color: #ffffff !important;
+            outline: none !important;
+        }
+
+        .form-select option {
+            background: #08122a;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .form-text {
+            font-size: 0.85rem !important;
+            color: #cbd5e1 !important;
+            margin-top: 0.45rem !important;
+            font-family: 'Inter', sans-serif !important;
+            line-height: 1.5 !important;
+        }
+
+        .form-check-input {
+            background-color: #0b1329 !important;
+            border-color: #475569 !important;
+        }
+        .form-check-input:checked {
+            background-color: #00ffff !important;
+            border-color: #00ffff !important;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.5) !important;
+        }
+
+        .btn-save-settings {
+            background: linear-gradient(135deg, #00ffff 0%, #0284c7 100%) !important;
+            border: none !important;
+            border-radius: 12px !important;
+            color: #020510 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 900 !important;
+            padding: 1rem 2rem !important;
+            width: 100% !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.35) !important;
+            font-size: 1.05rem !important;
+            cursor: pointer;
+        }
+
+        .btn-save-settings:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.55) !important;
+            color: #020510 !important;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border: 1.5px solid rgba(16, 185, 129, 0.4) !important;
+            color: #34d399 !important;
+            border-radius: 12px !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700 !important;
+        }
+
+        /* ══ ANIMATED BACKGROUND SYSTEM ══ */
+        .db-bg {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden;
+        }
+        .db-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 20%, rgba(0, 255, 255, 0.16) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 50% at 85% 10%, rgba(2, 132, 199, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0, 255, 220, 0.10) 0%, transparent 55%),
+                linear-gradient(160deg, #02060f 0%, #010416 30%, #020820 60%, #010512 100%);
+        }
+        .db-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: orbDrift 18s ease-in-out infinite; }
+        .db-orb-1 { width: 520px; height: 520px; top: -120px; left: -100px; background: radial-gradient(circle, rgba(0, 255, 255, 0.22) 0%, transparent 70%); animation-duration: 20s; }
+        .db-orb-2 { width: 400px; height: 400px; top: 10%; right: -80px; background: radial-gradient(circle, rgba(2, 132, 199, 0.20) 0%, transparent 70%); animation-delay: -7s; animation-duration: 24s; }
+        .db-orb-3 { width: 480px; height: 480px; bottom: -80px; left: 30%; background: radial-gradient(circle, rgba(0, 220, 255, 0.16) 0%, transparent 70%); animation-delay: -13s; animation-duration: 22s; }
+        .db-orb-4 { width: 300px; height: 300px; top: 45%; right: 25%; background: radial-gradient(circle, rgba(2, 132, 199, 0.16) 0%, transparent 70%); animation-delay: -4s; animation-duration: 19s; }
+        .db-orb-5 { width: 350px; height: 350px; bottom: 10%; right: -50px; background: radial-gradient(circle, rgba(0, 255, 220, 0.12) 0%, transparent 70%); animation-delay: -9s; animation-duration: 26s; }
+
+        @keyframes orbDrift {
+            0%   { opacity: 0.55; transform: translate(0, 0) scale(1); }
+            33%  { opacity: 0.75; transform: translate(25px, -18px) scale(1.04); }
+            66%  { opacity: 0.50; transform: translate(-18px, 22px) scale(0.97); }
+            100% { opacity: 0.55; transform: translate(0, 0) scale(1); }
+        }
+
+        .db-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.035) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+        }
+        .db-particles { position: absolute; inset: 0; }
+        .db-star { position: absolute; border-radius: 50%; background: #ffffff; animation: starTwinkle linear infinite; }
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.6); }
+        }
+        .db-topbar-glow {
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.8) 30%, rgba(2, 132, 199, 0.8) 70%, transparent 100%);
+            animation: topbarGlowPulse 4s ease-in-out infinite;
+        }
+        @keyframes topbarGlowPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #020510; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.25); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ffff; }
+
+        @media (max-width: 600px) {
+            .settings-card { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+<!-- ══ ANIMATED BACKGROUND ══ -->
+<div class="db-bg" aria-hidden="true">
+    <div class="db-orb db-orb-1"></div>
+    <div class="db-orb db-orb-2"></div>
+    <div class="db-orb db-orb-3"></div>
+    <div class="db-orb db-orb-4"></div>
+    <div class="db-orb db-orb-5"></div>
+    <div class="db-grid"></div>
+    <div class="db-particles" id="dbParticles"></div>
+    <div class="db-topbar-glow"></div>
+</div>
+
+<div class="settings-container">
+    
+    <!-- Back button -->
+    <div class="mb-4">
+        <a href="/admin" class="back-btn-global">
+            <i class="bi bi-arrow-left"></i> BACK
+        </a>
+    </div>
+
+    <div class="settings-card">
+        
+        <div class="settings-header">
+            <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon-badge">
+                    <i class="bi bi-sliders"></i>
+                </div>
+                <div>
+                    <h3>Assessment Settings</h3>
+                    <p>Control recruitment assessment rules, question limits, timers, and scoring parameters.</p>
+                </div>
+            </div>
+        </div>
+
+        {% if saved %}
+        <div class="alert alert-success d-flex align-items-center gap-2 mb-4 p-3">
+            <i class="bi bi-check-circle-fill fs-5"></i>
+            <div>Assessment settings updated successfully.</div>
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="mb-4">
+                <label class="form-label"><i class="bi bi-dash-circle"></i> Minimum Questions</label>
+                <input type="number" name="min_questions" class="form-control" min="1" max="20" value="{{ settings.min_questions }}" required>
+                <div class="form-text">The minimum question threshold required before candidate assessment completion is evaluated.</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label"><i class="bi bi-plus-circle"></i> Maximum Questions</label>
+                <input type="number" name="max_questions" class="form-control" min="1" max="20" value="{{ settings.max_questions }}" required>
+                <div class="form-text">The maximum question cap. The interview session automatically concludes when reached.</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label"><i class="bi bi-award"></i> Passing Score Threshold (out of 10)</label>
+                <input type="number" name="pass_score" class="form-control" min="0" max="10" step="0.5" value="{{ settings.pass_score }}" required>
+                <div class="form-text">Candidates scoring at or above this overall threshold pass the assessment round.</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label"><i class="bi bi-clock-history"></i> Question Time Limit (Seconds)</label>
+                <input type="number" name="question_timer_seconds" class="form-control" min="20" max="300" step="5" value="{{ settings.question_timer_seconds or 90 }}" required>
+                <div class="form-text">Allocated seconds per question during live assessment sessions. Defaults to 90 seconds (Max: 300 seconds / 5 minutes).</div>
+            </div>
+
+            <hr style="border-color: #334155; margin: 28px 0; opacity: 1;">
+
+            <div class="mb-4">
+                <div class="form-check form-switch d-flex align-items-center gap-3 p-0">
+                    <input class="form-check-input ms-0 me-2" type="checkbox" role="switch" id="enableAttemptLimits" name="enable_attempt_limits" style="width: 2.8em; height: 1.5em; cursor: pointer;" {% if settings.enable_attempt_limits %}checked{% endif %} onchange="toggleLimitFields(this.checked)">
+                    <label class="form-label mb-0 cursor-pointer" for="enableAttemptLimits" style="font-size: 1.05rem;">
+                        <i class="bi bi-lock-fill"></i> Enable Interview Attempt Restrictions
+                    </label>
+                </div>
+                <div class="form-text mt-2">When enabled, candidates are locked after completing their allowed interview sessions unless unlocked by Admin. If disabled, no attempt limit restrictions apply.</div>
+            </div>
+
+            <div class="mb-4" id="allowedInterviewsGroup" style="{% if not settings.enable_attempt_limits %}display: none;{% endif %}">
+                <label class="form-label"><i class="bi bi-person-workspace"></i> Default Allowed Interviews Per Candidate</label>
+                <input type="number" name="default_allowed_interviews" class="form-control" min="1" max="10" value="{{ settings.default_allowed_interviews or 2 }}" required>
+                <div class="form-text">The number of standard interview attempts granted to candidates by default (Default: 2).</div>
+            </div>
+
+            <script>
+                function toggleLimitFields(enabled) {
+                    var group = document.getElementById('allowedInterviewsGroup');
+                    if (group) group.style.display = enabled ? 'block' : 'none';
+                }
+            </script>
+
+            <div class="mb-4">
+                <label class="form-label"><i class="bi bi-bar-chart-steps"></i> Default Assessment Target Level</label>
+                <select name="default_difficulty" class="form-select">
+                    <option value="student" {% if settings.default_difficulty == 'student' or not settings.default_difficulty %}selected{% endif %}>
+                        Student / Entry-Level — Fundamental concept evaluation
+                    </option>
+                    <option value="mid" {% if settings.default_difficulty == 'mid' %}selected{% endif %}>
+                        Mid-Level — Professional placement scenarios
+                    </option>
+                    <option value="senior" {% if settings.default_difficulty == 'senior' %}selected{% endif %}>
+                        Senior / Professional — Architectural and deep technical drills
+                    </option>
+                </select>
+                <div class="form-text">Global default difficulty level applied to candidate interviews.</div>
+            </div>
+
+            <button type="submit" class="btn btn-save-settings mt-2">
+                <i class="bi bi-check2-square me-2"></i> Save Assessment Rules
+            </button>
+        </form>
+
+    </div>
+</div>
+<script>
+(function(){
+    var c=document.getElementById('dbParticles');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+        var s=document.createElement('div');
+        s.className='db-star';
+        var sz=Math.random()*2+1;
+        s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s';
+        c.appendChild(s);
+    }
+})();
+</script>
+</body>
+</html>
