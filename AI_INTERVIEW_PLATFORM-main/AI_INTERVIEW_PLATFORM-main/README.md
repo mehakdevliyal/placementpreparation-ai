@@ -524,4 +524,4 @@ Distributed under the **MIT License**. Developed and maintained by **MR360-TECH*
 
 ---
 
-**Developed by [Gowtham V](https://github.com/MR360-TECH)**
+**Developed by [Mehak Devliyal]**
